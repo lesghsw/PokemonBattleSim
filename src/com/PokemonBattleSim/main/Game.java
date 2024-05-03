@@ -43,12 +43,14 @@ public class Game extends Canvas implements Runnable {
 		long timer = 0;
 		int fps = 0;
 		
-		Pokemon a = new Pokemon("Pipo", 100, PokemonType.FIRE, 12, 23, 12, 1);
-		Pokemon b = new Pokemon("Pupu", 232, PokemonType.WATER, 11, 12, 12, 1);
+		PokemonMove graffio = new PokemonMove("Graffio", 10, 3, PokemonType.FIRE);
+		PokemonMove pugno = new PokemonMove("Pugno", 12, 3, PokemonType.WATER);
 		
-		a.Attack(b);
+		Pokemon a = new Pokemon("Charmander", 100, PokemonType.FIRE, graffio, pugno, 12, 23, 12, 1);
+		Pokemon b = new Pokemon("Bulbasaur", 232, PokemonType.WATER, graffio, pugno, 11, 12, 12, 1);
 		
-		System.out.println(b.gethp());
+		a.attack(b, a.getMove("Graffio"));
+		System.out.println(b.getHp());
 		
 		while(running) {
 			long t2 = System.nanoTime();
