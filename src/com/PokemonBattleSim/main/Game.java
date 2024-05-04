@@ -43,15 +43,27 @@ public class Game extends Canvas implements Runnable {
 		long timer = 0;
 		int fps = 0;
 		
+// -----------------------------------
 		PokemonMove graffio = new PokemonMove("Graffio", 10, 3, PokemonType.FIRE);
 		PokemonMove pugno = new PokemonMove("Pugno", 12, 3, PokemonType.WATER);
 		
-		Pokemon a = new Pokemon("Charmander", 100, PokemonType.FIRE, graffio, pugno, 12, 23, 12, 1);
-		Pokemon b = new Pokemon("Bulbasaur", 232, PokemonType.WATER, graffio, pugno, 11, 12, 12, 1);
 		
-		a.attack(b, a.getMove("Graffio"));
-		System.out.println(b.getHp());
+		//                                  name, hp, type,               move1, move2, lvl,atk,dfn,spd
+		Pokemon pok1 = new Pokemon("Charmander", 150, PokemonType.FIRE, graffio, pugno, 5, 20, 10, 1);
+		Pokemon pok2 = new Pokemon("Bulbasaur", 100, PokemonType.GRASS, graffio, pugno, 10, 25, 10, 1);
+		Pokemon pok3 = new Pokemon("Squirtle", 50, PokemonType.WATER, graffio, pugno, 15, 30, 10, 1);
 		
+		Pokemon pok4 = new Pokemon("Bulbasaur", 200, PokemonType.GRASS, graffio, pugno, 20, 20, 10, 2);
+		Pokemon pok5 = new Pokemon("Charmander", 250, PokemonType.FIRE, graffio, pugno, 25, 25, 10, 1);
+		Pokemon pok6 = new Pokemon("Squirtle", 300, PokemonType.WATER, graffio, pugno, 30, 30, 10, 1);
+		
+		Trainer trainer1 = new Trainer("Luca", pok1, pok2, pok3), trainer2 = new Trainer("Giancarlo", pok4, pok5, pok6);
+		
+		Battle battle1 = new Battle(trainer1, trainer2);
+		
+		battle1.runBattle();
+		
+// -----------------------------------			
 		while(running) {
 			long t2 = System.nanoTime();
 			delta += (t2 - t1) / ns;
@@ -68,7 +80,7 @@ public class Game extends Canvas implements Runnable {
 				render(fps);
 			
 			if (timer >= 1000000000) {
-				System.out.println(fps);
+				//System.out.println(fps);
 				fps = 0;
 				timer=0;
 			}

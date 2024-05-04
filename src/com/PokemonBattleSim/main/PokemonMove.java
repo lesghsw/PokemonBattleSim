@@ -6,7 +6,7 @@ public class PokemonMove {
 	private int durability;
 	private PokemonType type;
 	
-	PokemonMove(String name, int power, int durability, PokemonType type) {
+	public PokemonMove(String name, int power, int durability, PokemonType type) {
 		this.name = name;
 		this.power = power;
 		this.durability = durability;
@@ -19,6 +19,10 @@ public class PokemonMove {
 	
 	public int getPower() {
 		return this.power;
+	}
+	
+	public int getDurability() {
+		return this.durability;
 	}
 	
 	public PokemonType getType() {
