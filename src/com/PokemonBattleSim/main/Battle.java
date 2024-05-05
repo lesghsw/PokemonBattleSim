@@ -13,14 +13,14 @@ public class Battle {
 		
 		if (pok1.getSpd() > pok2.getSpd()) {
 			pok1.attack(pok2);
-			System.out.println("Pok2 = " + pok1.getHp());
+			System.out.println(pok2.getName() + " = " + pok2.getHp());
 			pok2.attack(pok1);
-			System.out.println("Pok1 = " + pok2.getHp());
+			System.out.println(pok1.getName() + " = " + pok1.getHp());
 		} else {
 			pok2.attack(pok1);
-			System.out.println("Pok1 = " + pok1.getHp());
+			System.out.println(pok1.getName() + " = " + pok1.getHp());
 			pok1.attack(pok2);
-			System.out.println("Pok2 = " + pok2.getHp());
+			System.out.println(pok2.getName() + " = " + pok2.getHp());
 		}
 	}
 }

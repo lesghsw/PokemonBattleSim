@@ -44,24 +44,30 @@ public class Game extends Canvas implements Runnable {
 		int fps = 0;
 		
 // -----------------------------------
-		PokemonMove graffio = new PokemonMove("Graffio", 10, 3, PokemonType.FIRE);
-		PokemonMove pugno = new PokemonMove("Pugno", 12, 3, PokemonType.WATER);
+		PokemonPool pokPool = new PokemonPool();
+		PokemonMovePool pokMovePool = new PokemonMovePool();
 		
+		Trainer trainer1 = new Trainer("Luca", pokPool.genSquirtle(), pokPool.genSquirtle(), pokPool.genSquirtle());
+		Trainer trainer2 = new Trainer("Giancarlo", pokPool.genCharmander(), pokPool.genCharmander(), pokPool.genCharmander());
 		
-		//                                  name, hp, type,               move1, move2, lvl,atk,dfn,spd
-		Pokemon pok1 = new Pokemon("Charmander", 150, PokemonType.FIRE, graffio, pugno, 5, 20, 10, 1);
-		Pokemon pok2 = new Pokemon("Bulbasaur", 100, PokemonType.GRASS, graffio, pugno, 10, 25, 10, 1);
-		Pokemon pok3 = new Pokemon("Squirtle", 50, PokemonType.WATER, graffio, pugno, 15, 30, 10, 1);
-		
-		Pokemon pok4 = new Pokemon("Bulbasaur", 200, PokemonType.GRASS, graffio, pugno, 20, 20, 10, 2);
-		Pokemon pok5 = new Pokemon("Charmander", 250, PokemonType.FIRE, graffio, pugno, 25, 25, 10, 1);
-		Pokemon pok6 = new Pokemon("Squirtle", 300, PokemonType.WATER, graffio, pugno, 30, 30, 10, 1);
-		
-		Trainer trainer1 = new Trainer("Luca", pok1, pok2, pok3), trainer2 = new Trainer("Giancarlo", pok4, pok5, pok6);
+		trainer1.getActivePokemon().addMove(pokMovePool.genWaterGun());
+		trainer2.getActivePokemon().addMove(pokMovePool.genFlamethrower());
 		
 		Battle battle1 = new Battle(trainer1, trainer2);
 		
+		System.out.println("Round 1:");
 		battle1.runBattle();
+		
+		trainer1.getActivePokemon().setActiveMove("Water Gun");
+		trainer2.getActivePokemon().setActiveMove("Flamethrower");
+		
+		System.out.println("Round 2:");
+		battle1.runBattle();
+		
+		/*trainer1.getActivePokemon().setActiveMove("Water Gun");
+		trainer2.getActivePokemon().setActiveMove("Water Gun");
+		System.out.println("Round 3:");
+		battle1.runBattle();*/
 		
 // -----------------------------------			
 		while(running) {
