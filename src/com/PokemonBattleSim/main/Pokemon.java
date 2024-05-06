@@ -153,6 +153,9 @@ public class Pokemon {
 	public void attack(Pokemon target) {
 		PokemonMove move = this.activeMove;
 		Random rand = new Random();
+		
+		System.out.println(this.name + " used " + move.getName());
+		
 		if (move.getPower() > 0) {
 			int attack = move.isSp() ? this.spAtk : this.atk;
 			int defence = move.isSp() ? target.getSpDef() : target.getDef();
@@ -160,6 +163,9 @@ public class Pokemon {
 			float lvlMod = (2.0f/5.0f*this.lvl + 2);
 			float atkODef = attack / (float)defence;
 			float eff = calculateEffectiveness(target.getTypes());
+			
+			if (eff > 1.0f) System.out.println("It's super effective!");
+			else if (eff < 1.0f) System.out.println("It's not very effective...");
 			
 			float stab = calculateStab();
 			float rndAcc = rand.nextFloat();

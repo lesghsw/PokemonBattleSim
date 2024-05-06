@@ -64,13 +64,23 @@ public class Game extends Canvas implements Runnable {
 		System.out.println("Round 1:");
 		battle1.runBattle();
 		
-		trainer1.getActivePokemon().setActiveMove("Water Gun");
-		trainer2.getActivePokemon().setActiveMove("Flamethrower");
+		trainer1.getActivePokemon().setActiveMove("Tackle");
+		trainer2.getActivePokemon().setActiveMove("Scratch");
 		
 		System.out.println("Round 2:");
 		battle1.runBattle();
 		
+		trainer1.getActivePokemon().setActiveMove("Water Gun");
+		trainer2.getActivePokemon().setActiveMove("Flamethrower");
 		
+		System.out.println("Round 3:");
+		battle1.runBattle();
+		
+		trainer1.getActivePokemon().setActiveMove("Tackle");
+		trainer2.getActivePokemon().setActiveMove("Scratch");
+		
+		System.out.println("Round 4:");
+		battle1.runBattle();
 		
 		// ------------------
 		
