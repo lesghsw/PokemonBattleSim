@@ -65,7 +65,7 @@ public class Game extends Canvas implements Runnable {
 		battle1.runBattle();
 		
 		trainer1.getActivePokemon().setActiveMove("Water Gun");
-		trainer2.getActivePokemon().setActiveMove("Leech Seed");
+		trainer2.getActivePokemon().setActiveMove("Flamethrower");
 		
 		System.out.println("Round 2:");
 		battle1.runBattle();
@@ -83,12 +83,12 @@ public class Game extends Canvas implements Runnable {
 		BufferedImage image6 = null;
 		
 		try {
-			image1 = ImageIO.read(getClass().getResourceAsStream(trainer1.getActivePokemon().getImgPath() + "front.png"));
-			image2 = ImageIO.read(getClass().getResourceAsStream(trainer1.getActivePokemon().getImgPath() + "back.png"));
-			image3 = ImageIO.read(getClass().getResourceAsStream(trainer2.getActivePokemon().getImgPath() + "front.png"));
-			image4 = ImageIO.read(getClass().getResourceAsStream(trainer2.getActivePokemon().getImgPath() + "back.png"));
-			image5 = ImageIO.read(getClass().getResourceAsStream(trainer3.getActivePokemon().getImgPath() + "front.png"));
-			image6 = ImageIO.read(getClass().getResourceAsStream(trainer3.getActivePokemon().getImgPath() + "back.png"));
+			image1 = ImageIO.read(getClass().getResourceAsStream(trainer1.getActivePokemon().getSpriteFront()));
+			image2 = ImageIO.read(getClass().getResourceAsStream(trainer1.getActivePokemon().getSpriteBack()));
+			image3 = ImageIO.read(getClass().getResourceAsStream(trainer2.getActivePokemon().getSpriteFront()));
+			image4 = ImageIO.read(getClass().getResourceAsStream(trainer2.getActivePokemon().getSpriteBack()));
+			image5 = ImageIO.read(getClass().getResourceAsStream(trainer3.getActivePokemon().getSpriteFront()));
+			image6 = ImageIO.read(getClass().getResourceAsStream(trainer3.getActivePokemon().getSpriteBack()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

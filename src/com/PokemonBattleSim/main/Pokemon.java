@@ -18,7 +18,8 @@ public class Pokemon {
 	private int def;
 	private int spDef;
 	private int spd;
-	private final String imgSrcPath;
+	private final String imgSrcFront;
+	private final String imgSrcBack;
 	
 	public Pokemon(String name, int hp, PokemonType type, PokemonMove move1, PokemonMove move2, int lvl, int atk, int def, int spAtk, int spDef, int spd) {
 		this.name = name;
@@ -34,7 +35,8 @@ public class Pokemon {
 		this.def = def;
 		this.spDef = spDef;
 		this.spd = spd;
-		this.imgSrcPath = "/" + name.toLowerCase() + "/";
+		this.imgSrcFront = "/" + name.toLowerCase() + "/front.png";
+		this.imgSrcBack = "/" + name.toLowerCase() + "/back.png";
 	}
 	
 	public Pokemon(String name, int hp, PokemonType type1, PokemonType type2, PokemonMove move1, PokemonMove move2, int lvl, int atk, int def, int spAtk, int spDef, int spd) {
@@ -52,7 +54,8 @@ public class Pokemon {
 		this.def = def;
 		this.spDef = spDef;
 		this.spd = spd;
-		this.imgSrcPath = "/" + name.toLowerCase() + "/";
+		this.imgSrcFront = "/" + name.toLowerCase() + "/front.png";
+		this.imgSrcBack = "/" + name.toLowerCase() + "/back.png";
 	}
 	
 	public float getHp() {
@@ -83,12 +86,20 @@ public class Pokemon {
 		return this.moves.get(name);
 	}
 	
+	public List<PokemonType> getTypes() {
+		return this.types;
+	}
+	
 	public float getMaxHp() {
 		return this.maxHp;
 	}
 	
-	public String getImgPath() {
-		return this.imgSrcPath;
+	public String getSpriteFront() {
+		return this.imgSrcFront;
+	}
+	
+	public String getSpriteBack() {
+		return this.imgSrcBack;
 	}
 	
 	public void setActiveMove(String moveName) {
@@ -105,8 +116,38 @@ public class Pokemon {
 		this.hp -= dmg;
 	}
 	
-	private float calculateStab(List<PokemonType> pokTypes, PokemonType movType) {
-		return pokTypes.contains(movType) ? 1.5f : 1.0f;
+	private float calculateStab() {
+		return this.types.contains(this.getActiveMove().getType()) ? 1.5f : 1.0f;
+	}
+	
+	private float calculateEffectiveness(List<PokemonType> targetTypes) {
+		PokemonType moveType = this.getActiveMove().getType();
+		
+		float eff = 1.0f;
+		
+		switch(moveType) {
+			case NORMAL:
+				break;
+			case FIRE:
+				if (targetTypes.contains(PokemonType.FIRE)) eff*=0.5f;
+				if (targetTypes.contains(PokemonType.WATER)) eff*=0.5f;
+				if (targetTypes.contains(PokemonType.GRASS)) eff*=2.0f;
+				break;
+			case WATER:
+				if (targetTypes.contains(PokemonType.FIRE)) eff*=2.0f;
+				if (targetTypes.contains(PokemonType.WATER)) eff*=0.5f;
+				if (targetTypes.contains(PokemonType.GRASS)) eff*=0.5f;
+				break;
+			case GRASS:
+				if (targetTypes.contains(PokemonType.FIRE)) eff*=0.5f;
+				if (targetTypes.contains(PokemonType.WATER)) eff*=2.0f;
+				if (targetTypes.contains(PokemonType.GRASS)) eff*=0.5f;
+				break;
+			default:
+				break;
+		}
+		
+		return eff;
 	}
 	
 	public void attack(Pokemon target) {
@@ -118,12 +159,13 @@ public class Pokemon {
 			
 			float lvlMod = (2.0f/5.0f*this.lvl + 2);
 			float atkODef = attack / (float)defence;
+			float eff = calculateEffectiveness(target.getTypes());
 			
-			float stab = calculateStab(this.types, move.getType());
-			float rnd = rand.nextFloat();
-			System.out.println(rnd + ", " + move.getAccuracy());
-			if (rnd <= move.getAccuracy())
-				target.damage((( lvlMod * move.getPower() * atkODef)/50.0f + 2) * stab);
+			float stab = calculateStab();
+			float rndAcc = rand.nextFloat();
+			float rndMod = rand.nextFloat(0.15f) + 0.85f;
+			if (rndAcc <= move.getAccuracy())
+				target.damage((( lvlMod * move.getPower() * atkODef)/50.0f + 2) * stab * eff * rndMod);
 		}
 		move.updateDurability(-1);
 	}
