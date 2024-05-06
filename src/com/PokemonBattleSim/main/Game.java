@@ -4,6 +4,11 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Game extends Canvas implements Runnable {
 
@@ -49,6 +54,7 @@ public class Game extends Canvas implements Runnable {
 		
 		Trainer trainer1 = new Trainer("Luca", pokPool.genSquirtle(), pokPool.genSquirtle(), pokPool.genSquirtle());
 		Trainer trainer2 = new Trainer("Giancarlo", pokPool.genCharmander(), pokPool.genCharmander(), pokPool.genCharmander());
+		Trainer trainer3 = new Trainer("Leonardo", pokPool.genBulbasaur(), pokPool.genBulbasaur(), pokPool.genBulbasaur());
 		
 		trainer1.getActivePokemon().addMove(pokMovePool.genWaterGun());
 		trainer2.getActivePokemon().addMove(pokMovePool.genFlamethrower());
@@ -59,10 +65,33 @@ public class Game extends Canvas implements Runnable {
 		battle1.runBattle();
 		
 		trainer1.getActivePokemon().setActiveMove("Water Gun");
-		trainer2.getActivePokemon().setActiveMove("Flamethrower");
+		trainer2.getActivePokemon().setActiveMove("Leech Seed");
 		
 		System.out.println("Round 2:");
 		battle1.runBattle();
+		
+		
+		
+		// ------------------
+		
+		
+		BufferedImage image1 = null;
+		BufferedImage image2 = null;
+		BufferedImage image3 = null;
+		BufferedImage image4 = null;
+		BufferedImage image5 = null;
+		BufferedImage image6 = null;
+		
+		try {
+			image1 = ImageIO.read(getClass().getResourceAsStream(trainer1.getActivePokemon().getImgPath() + "front.png"));
+			image2 = ImageIO.read(getClass().getResourceAsStream(trainer1.getActivePokemon().getImgPath() + "back.png"));
+			image3 = ImageIO.read(getClass().getResourceAsStream(trainer2.getActivePokemon().getImgPath() + "front.png"));
+			image4 = ImageIO.read(getClass().getResourceAsStream(trainer2.getActivePokemon().getImgPath() + "back.png"));
+			image5 = ImageIO.read(getClass().getResourceAsStream(trainer3.getActivePokemon().getImgPath() + "front.png"));
+			image6 = ImageIO.read(getClass().getResourceAsStream(trainer3.getActivePokemon().getImgPath() + "back.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		/*trainer1.getActivePokemon().setActiveMove("Water Gun");
 		trainer2.getActivePokemon().setActiveMove("Water Gun");
@@ -78,12 +107,10 @@ public class Game extends Canvas implements Runnable {
 			
 			while(delta >= 1) {
 				tick();
+				render(image1, image2, image3, image4, image5, image6);
 				delta--;
 				fps++;
 			}
-			
-			if(timer >= 1000000000)
-				render(fps);
 			
 			if (timer >= 1000000000) {
 				//System.out.println(fps);
@@ -98,8 +125,8 @@ public class Game extends Canvas implements Runnable {
 		
 	}
 	
-	private void render(int fps) {
-		BufferStrategy bs = this.getBufferStrategy();
+	private void render(BufferedImage image1, BufferedImage image2, BufferedImage image3, BufferedImage image4, BufferedImage image5, BufferedImage image6) {
+		/*BufferStrategy bs = this.getBufferStrategy();
 		if (bs == null) {
 			this.createBufferStrategy(2);
 			return;
@@ -112,6 +139,24 @@ public class Game extends Canvas implements Runnable {
 		
 		g.setColor(Color.CYAN);
 		g.drawString(Integer.toString(fps), 200, 400);
+		
+		g.dispose();
+		bs.show();*/
+		
+		BufferStrategy bs = this.getBufferStrategy();
+		if (bs == null) {
+			this.createBufferStrategy(2);
+			return;
+		}
+		
+		Graphics g = bs.getDrawGraphics();
+		
+		g.drawImage(image1, 20, 20, null);
+		g.drawImage(image2, 100, 20, null);
+		g.drawImage(image3, 180, 20, null);
+		g.drawImage(image4, 260, 20, null);
+		g.drawImage(image5, 320, 20, null);
+		g.drawImage(image6, 400, 20, null);
 		
 		g.dispose();
 		bs.show();

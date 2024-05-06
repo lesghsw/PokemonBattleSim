@@ -3,6 +3,7 @@ package com.PokemonBattleSim.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class Pokemon {
 	private String name;
@@ -17,6 +18,7 @@ public class Pokemon {
 	private int def;
 	private int spDef;
 	private int spd;
+	private final String imgSrcPath;
 	
 	public Pokemon(String name, int hp, PokemonType type, PokemonMove move1, PokemonMove move2, int lvl, int atk, int def, int spAtk, int spDef, int spd) {
 		this.name = name;
@@ -32,6 +34,7 @@ public class Pokemon {
 		this.def = def;
 		this.spDef = spDef;
 		this.spd = spd;
+		this.imgSrcPath = "/" + name.toLowerCase() + "/";
 	}
 	
 	public Pokemon(String name, int hp, PokemonType type1, PokemonType type2, PokemonMove move1, PokemonMove move2, int lvl, int atk, int def, int spAtk, int spDef, int spd) {
@@ -49,6 +52,7 @@ public class Pokemon {
 		this.def = def;
 		this.spDef = spDef;
 		this.spd = spd;
+		this.imgSrcPath = "/" + name.toLowerCase() + "/";
 	}
 	
 	public float getHp() {
@@ -79,6 +83,14 @@ public class Pokemon {
 		return this.moves.get(name);
 	}
 	
+	public float getMaxHp() {
+		return this.maxHp;
+	}
+	
+	public String getImgPath() {
+		return this.imgSrcPath;
+	}
+	
 	public void setActiveMove(String moveName) {
 		this.activeMove = this.moves.getOrDefault(moveName, this.activeMove);
 	}
@@ -99,6 +111,7 @@ public class Pokemon {
 	
 	public void attack(Pokemon target) {
 		PokemonMove move = this.activeMove;
+		Random rand = new Random();
 		if (move.getPower() > 0) {
 			int attack = move.isSp() ? this.spAtk : this.atk;
 			int defence = move.isSp() ? target.getSpDef() : target.getDef();
@@ -107,7 +120,10 @@ public class Pokemon {
 			float atkODef = attack / (float)defence;
 			
 			float stab = calculateStab(this.types, move.getType());
-			target.damage((( lvlMod * move.getPower() * atkODef)/50.0f + 2) * stab);
+			float rnd = rand.nextFloat();
+			System.out.println(rnd + ", " + move.getAccuracy());
+			if (rnd <= move.getAccuracy())
+				target.damage((( lvlMod * move.getPower() * atkODef)/50.0f + 2) * stab);
 		}
 		move.updateDurability(-1);
 	}

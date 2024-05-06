@@ -5,12 +5,14 @@ public class PokemonMove {
 	private int power;
 	private int durability;
 	private boolean sp;
+	private float accuracy;
 	private PokemonType type;
 	
-	public PokemonMove(String name, int power, int durability, PokemonType type, boolean sp) {
+	public PokemonMove(String name, int power, int durability, float accuracy, PokemonType type, boolean sp) {
 		this.name = name;
 		this.power = power;
 		this.durability = durability;
+		this.accuracy = accuracy;
 		this.type = type;
 		this.sp = sp;
 	}
@@ -25,6 +27,10 @@ public class PokemonMove {
 	
 	public int getDurability() {
 		return this.durability;
+	}
+	
+	public float getAccuracy() {
+		return this.accuracy;
 	}
 	
 	public boolean isSp() {
