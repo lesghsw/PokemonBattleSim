@@ -1,26 +1,21 @@
 package com.PokemonBattleSim.main;
 
-import java.awt.Canvas;
-import java.awt.Dimension;
-
 import javax.swing.JFrame;
 
-public class Window extends Canvas {
-
-	private static final long serialVersionUID = -9192889968753993528L;
+public class Window {
 	
-	public Window(int width, int height, String title, Game game) {
-		JFrame frame = new JFrame(title);
+	public Window() {
+		JFrame window = new JFrame("Pokémon LES & KRB");
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setResizable(false);
 		
-		frame.setPreferredSize(new Dimension(width, height));
-		frame.setMaximumSize(new Dimension(width, height));
-		frame.setMinimumSize(new Dimension(width, height));
+		GamePanel gamePanel = new GamePanel();
+		window.add(gamePanel);
+		window.pack();
 		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-		frame.setLocationRelativeTo(null);
-		frame.add(game);
-		frame.setVisible(true);
-		game.start();
+		window.setLocationRelativeTo(null);
+		window.setVisible(true);
+		
+		gamePanel.startGameThread();
 	}
 }
