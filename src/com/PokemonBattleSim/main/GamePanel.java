@@ -36,6 +36,8 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		keyH = new KeyHandler(this);
 		this.addKeyListener(keyH);
+		this.addMouseListener(keyH);
+		this.addMouseMotionListener(keyH);
 		
 		state = new	GameState(keyH);
 		settings = new GameSettings(false);
@@ -68,7 +70,7 @@ public class GamePanel extends JPanel implements Runnable{
 			if (delta >= 1) {
 							
 				update();
-//				repaint();
+				repaint();
 				delta--;
 				drawCount++;
 			}
@@ -86,7 +88,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public void update() {
 		
 		gameController.update(this);
-		
+		handleMouseInput();
 /*		DA IMPLEMENTARE
 		
 		if (gameState == 1) {
@@ -98,6 +100,15 @@ public class GamePanel extends JPanel implements Runnable{
 		} */
 	}
 	
+	private void handleMouseInput() {
+		
+		if(keyH.isMouseClicked()) {
+			System.out.println(String.format("Mouse cliccato in posizione x:%d y:%d", keyH.getMousePosition().getX(), keyH.getMousePosition().getY()));
+		}
+		
+		keyH.clearMouseClick();
+	}
+
 	public void paintComponent(Graphics g) {
 //		DA IMPLEMENTARE
 		super.paintComponent(g);

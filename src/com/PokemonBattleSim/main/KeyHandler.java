@@ -10,13 +10,15 @@ public class KeyHandler implements KeyListener, MouseListener, MouseMotionListen
 	
 	GamePanel gp;
 	
-//	private Position pointerPoisiton;
+	private Position mousePosition;
+	private boolean mouseClicked, mousePressed;
 	
-	public boolean upPressed, downPressed, rightPressed, leftPressed, spPressed;
+	public boolean upPressed, downPressed, rightPressed, leftPressed, spPressed, spPrevPressed;
 	
 	public KeyHandler(GamePanel gp) {
 		
 		this.gp = gp;
+		mousePosition = new Position(0, 0);
 	}
 
 	@Override
@@ -29,7 +31,6 @@ public class KeyHandler implements KeyListener, MouseListener, MouseMotionListen
 		
 		if (code == KeyEvent.VK_F2) {
 			spPressed = true;
-			System.out.println("F2");
 		}
 		if (code == KeyEvent.VK_W) {
 			upPressed = true;
@@ -50,8 +51,8 @@ public class KeyHandler implements KeyListener, MouseListener, MouseMotionListen
 		
 		int code = e.getKeyCode();
 		
-		if (code == KeyEvent.VK_F) {
-			spPressed = false;
+		if (code == KeyEvent.VK_F2) {
+            spPressed = false;
 		}
 		if (code == KeyEvent.VK_W) {
 			upPressed = false;
@@ -84,31 +85,60 @@ public class KeyHandler implements KeyListener, MouseListener, MouseMotionListen
 		}
 	}
 
+	public void clearMouseClick() { mouseClicked = false; }
+	
+	public Position getMousePosition() {
+		return mousePosition;
+	}
+
+	public boolean isMouseClicked() {
+		return mouseClicked;
+	}
+
+	public boolean isMousePressed() {
+		return mousePressed;
+	}
+
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		
+		mousePosition = new Position((int) e.getPoint().getX(), (int) e.getPoint().getY());
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		
+		mousePosition = new Position((int) e.getPoint().getX(), (int) e.getPoint().getY());
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-	}
+	public void mousePressed(MouseEvent e) { mousePressed = true; }
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		
+		mouseClicked = true;
+		mousePressed = false;
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
+	public void mouseExited(MouseEvent e) {}
+	
+	public boolean isPrevKeyPressed(int keyCode) {
+		
+		switch (keyCode) {
+			case KeyEvent.VK_F2:
+				return spPrevPressed;
+			default:
+				return false;
+		}
 	}
-
+	
+	public void updatePrevKeyState() { spPrevPressed = spPressed; }
 }

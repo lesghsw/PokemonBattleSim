@@ -13,9 +13,10 @@ public class GameController {
 	
 	public void update(GamePanel gp) {
 		
-		if(keyH.isKeyPressed(KeyEvent.VK_F2)) {
+		if(keyH.isKeyPressed(KeyEvent.VK_F2) && !keyH.isPrevKeyPressed(KeyEvent.VK_F2)) {
 			
 			gp.getSettings().toggleDebugMode();
 		}
+		keyH.updatePrevKeyState();
 	}
 }
