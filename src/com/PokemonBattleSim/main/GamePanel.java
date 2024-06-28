@@ -22,6 +22,9 @@ public class GamePanel extends JPanel implements Runnable{
 	// VARIE
 	KeyHandler keyH;
 	Thread gameThread;
+	State state;
+	GameSettings settings;
+	GameController gameController;
 	
 	
 	public GamePanel() {
@@ -33,6 +36,10 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		keyH = new KeyHandler(this);
 		this.addKeyListener(keyH);
+		
+		state = new	GameState(keyH);
+		settings = new GameSettings(false);
+		gameController = new GameController(keyH);
 	}
 	
 	public void startGameThread() {
@@ -60,7 +67,7 @@ public class GamePanel extends JPanel implements Runnable{
 			
 			if (delta >= 1) {
 							
-//				update();
+				update();
 //				repaint();
 				delta--;
 				drawCount++;
@@ -77,49 +84,56 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void update() {
-//		DA IMPLEMENTARE
-//		
-//		if (gameState == 1) {
-//		
-//			player.update();	
-//		}
-//		
-//		if (gameState == pauseState) {
-//		}
+		
+		gameController.update(this);
+		
+/*		DA IMPLEMENTARE
+		
+		if (gameState == 1) {
+		
+			player.update();	
+		}
+		
+		if (gameState == pauseState) {
+		} */
 	}
 	
 	public void paintComponent(Graphics g) {
 //		DA IMPLEMENTARE
-//		super.paintComponent(g);
-//		
-//		Graphics2D g2 = (Graphics2D)g; simile a Graphics ma con funzionalità in più
-//		
-//		TITLE SCREEN
-//		if (gameState == titleState) {	
-//		}
-//		
-//		else {
-//		}
-//		
-// 		g2.dispose(); per risparmiare memoria
+		super.paintComponent(g);
+/*		
+		Graphics2D g2 = (Graphics2D)g; simile a Graphics ma con funzionalità in più
+		
+		TITLE SCREEN
+		if (gameState == titleState) {	
+		}
+		
+		else {
+		}
+		
+ 		g2.dispose(); per risparmiare memoria */
 	}
 
 	public void playMusic(int i) {
-//	DA IMPLEMENTARE
-//	sound.setFile(i);
-//	sound.play();
-//	sound.loop();
+/*	DA IMPLEMENTARE
+	sound.setFile(i);
+	sound.play();
+	sound.loop(); */
 	}
 
 	public void stopMusic() {
-//	DA IMPLEMENTARE
-//	sound.stop();
+/*	DA IMPLEMENTARE
+	sound.stop(); */
 	}
 
 	public void playSE(int i) {
-//	DA IMPLEMENTARE
-//	sound.setFile(i);
-//	sound.play();
+/*	DA IMPLEMENTARE
+	sound.setFile(i);
+	sound.play(); */
+	}
+
+	public GameSettings getSettings() {
+		return settings;
 	}
 }
 

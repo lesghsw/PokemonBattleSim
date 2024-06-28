@@ -27,8 +27,9 @@ public class KeyHandler implements KeyListener, MouseListener, MouseMotionListen
 		
 		int code = e.getKeyCode();
 		
-		if (code == KeyEvent.VK_F) {
+		if (code == KeyEvent.VK_F2) {
 			spPressed = true;
+			System.out.println("F2");
 		}
 		if (code == KeyEvent.VK_W) {
 			upPressed = true;
@@ -63,6 +64,23 @@ public class KeyHandler implements KeyListener, MouseListener, MouseMotionListen
 		}
 		if (code == KeyEvent.VK_D) {
 			rightPressed = false;
+		}
+	}
+	
+	public boolean isKeyPressed(int KeyCode) {
+		switch(KeyCode) {
+			case KeyEvent.VK_F2:
+				return spPressed;
+			case KeyEvent.VK_W:
+				return upPressed;
+			case KeyEvent.VK_A:
+				return downPressed;
+			case KeyEvent.VK_S:
+				return leftPressed;
+			case KeyEvent.VK_D:
+				return rightPressed;
+			default:
+				return false;
 		}
 	}
 
