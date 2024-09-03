@@ -15,16 +15,18 @@ public class GamePanel extends JPanel implements Runnable{
 	final int screenHeight = 720;
 	
 	// AGGIUNGERE GAME STATES
-
+	private Playing playing;
+	private Menu menu;
+	
 	// FPS
 	int FPS = 60;
 	
 	// VARIE
-	KeyHandler keyH;
-	Thread gameThread;
-	State state;
-	GameSettings settings;
-	GameController gameController;
+	private KeyHandler keyH;
+	private Thread gameThread;
+	private State state;
+	private GameSettings settings;
+	private GameController gameController;
 	
 	
 	public GamePanel() {
@@ -39,7 +41,6 @@ public class GamePanel extends JPanel implements Runnable{
 		this.addMouseListener(keyH);
 		this.addMouseMotionListener(keyH);
 		
-		state = new	GameState(keyH);
 		settings = new GameSettings(false);
 		gameController = new GameController(keyH);
 	}
@@ -89,14 +90,34 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		gameController.update(this);
 		handleMouseInput();
-/*		DA IMPLEMENTARE
+
+		switch(GameState.state) {
+		case MENU:
+//			menu.update(); PLACEHOLDER
+//			System.out.println("MENU");
+			break;
+		case PLAYING:
+//			player.update(); PLACEHOLDER
+//			System.out.println("IN GIOCO");
+			break;
+		default:
+			break;
 		
-		if (gameState == 1) {
-		
-			player.update();	
 		}
+	}
+	
+	public void render() {
+/*		DA IMPLEMENTARE
+		switch(Gamestate.state) {
+		case MENU:
+			QUI NON FARE NULLA
+			break;
+		case PLAYING:
+			RENDERIZZA SOLO MENTRE GIOCO
+			break;
+		default:
+			break;
 		
-		if (gameState == pauseState) {
 		} */
 	}
 	

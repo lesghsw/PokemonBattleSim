@@ -1,8 +1,8 @@
 package com.PokemonBattleSim.main;
 
-public class GameState extends State {
+public enum GameState {
 
-	public GameState(KeyHandler keyH) {
-		super(keyH);
-	}
+	PLAYING, MENU, SETTINGS;
+
+	public static GameState state = MENU;
 }
