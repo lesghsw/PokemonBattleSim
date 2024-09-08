@@ -27,12 +27,13 @@ public class GamePanel extends JPanel implements Runnable{
 	private State state;
 	private GameSettings settings;
 	private GameController gameController;
+	private Sound sound;
 	
 	
 	public GamePanel() {
 		
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-		this.setBackground(Color.black);
+		this.setBackground(Color.white);
 		this.setDoubleBuffered(true);
 		this.setFocusable(true);
 		
@@ -43,12 +44,14 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		settings = new GameSettings(false);
 		gameController = new GameController(keyH);
+		sound = new Sound();
 	}
 	
 	public void startGameThread() {
 		
 		gameThread = new Thread(this);
 		gameThread.start();
+		playMusic(0);
 	}
 
 	@Override
@@ -86,40 +89,10 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 	}
 	
-	public void update() {
-		
+	public void update() {		
 		gameController.update(this);
 		handleMouseInput();
-
-		switch(GameState.state) {
-		case MENU:
-//			menu.update(); PLACEHOLDER
-//			System.out.println("MENU");
-			break;
-		case PLAYING:
-//			player.update(); PLACEHOLDER
-//			System.out.println("IN GIOCO");
-			break;
-		default:
-			break;
-		
 		}
-	}
-	
-	public void render() {
-/*		DA IMPLEMENTARE
-		switch(Gamestate.state) {
-		case MENU:
-			QUI NON FARE NULLA
-			break;
-		case PLAYING:
-			RENDERIZZA SOLO MENTRE GIOCO
-			break;
-		default:
-			break;
-		
-		} */
-	}
 	
 	private void handleMouseInput() {
 		
@@ -147,21 +120,18 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 
 	public void playMusic(int i) {
-/*	DA IMPLEMENTARE
-	sound.setFile(i);
-	sound.play();
-	sound.loop(); */
+		sound.setFile(i);
+		sound.play();
+		sound.loop();
 	}
 
 	public void stopMusic() {
-/*	DA IMPLEMENTARE
-	sound.stop(); */
+		sound.stop();
 	}
 
 	public void playSE(int i) {
-/*	DA IMPLEMENTARE
-	sound.setFile(i);
-	sound.play(); */
+		sound.setFile(i);
+		sound.play();
 	}
 
 	public GameSettings getSettings() {

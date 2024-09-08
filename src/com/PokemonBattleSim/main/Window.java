@@ -9,6 +9,8 @@ public class Window {
 	private JFrame window;
 	private JPanel mainPanel;
 	private CardLayout cardLayout;
+	
+	private GamePanel gamePanel;
 
 	public Window() {
 		window = new JFrame("Pokémon LES & KRB");
@@ -18,10 +20,16 @@ public class Window {
 		cardLayout = new CardLayout();
 		mainPanel = new JPanel(cardLayout);
 
-		GamePanel gamePanel = new GamePanel();
+		gamePanel = new GamePanel();
+		CharSelectPanel charSelectPanel = new CharSelectPanel(this);
+		SettingsPanel settingsPanel = new SettingsPanel(this);
+		LoadSavePanel loadSavePanel = new LoadSavePanel(this);
 		MenuPanel menuPanel = new MenuPanel(this);
 
 		mainPanel.add(menuPanel, "Menu");
+		mainPanel.add(charSelectPanel, "CharSelect");
+		mainPanel.add(settingsPanel, "Settings");
+		mainPanel.add(loadSavePanel, "LoadSave");
 		mainPanel.add(gamePanel, "Game");
 
 		window.add(mainPanel);
@@ -35,6 +43,6 @@ public class Window {
 	}
 
 	public GamePanel getGamePanel() {
-		return (GamePanel) mainPanel.getComponent(1); // 1 = GamePanel
+		return gamePanel;
 	}
 }

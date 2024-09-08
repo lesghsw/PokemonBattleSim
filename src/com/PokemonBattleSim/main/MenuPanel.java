@@ -11,18 +11,46 @@ public class MenuPanel extends JPanel {
 
 	public MenuPanel(Window window) {
 		this.window = window;
-		JButton startButton = new JButton("Start Game");
-		JButton useless = new JButton("Cliccami");
+		
+		JButton startButton = new JButton("Nuova Partita");
+		JButton loadButton = new JButton("Carica Salvataggio"); // PLACEHOLDER
+		JButton settingsButton = new JButton("Impostazioni");
+		JButton exitButton = new JButton("Esci");
+		
+		settingsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GameState.state = GameState.SETTINGS;
+				window.showPanel("Settings");
+			}
+		});
+		
+		loadButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GameState.state = GameState.SAVEFILE;
+				window.showPanel("LoadSave");
+			}
+		});
+		
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				GameState.state = GameState.PLAYING;
-				window.showPanel("Game");
-				window.getGamePanel().startGameThread(); // Avvia il thread quando inizia la battaglia (penso(?))
+				GameState.state = GameState.CHRSEL;
+				window.showPanel("CharSelect");
+			}
+		});
+		
+		exitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
 			}
 		});
 
 		this.add(startButton);
-		this.add(useless);
+		this.add(loadButton);
+		this.add(settingsButton);
+		this.add(exitButton);
 	}
 }
