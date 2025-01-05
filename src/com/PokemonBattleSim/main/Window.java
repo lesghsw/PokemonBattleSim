@@ -33,7 +33,8 @@ public class Window {
 		mainPanel.add(gamePanel, "Game");
 
 		window.add(mainPanel);
-		window.pack();
+		
+		window.setSize(1200, 1000);
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 	}

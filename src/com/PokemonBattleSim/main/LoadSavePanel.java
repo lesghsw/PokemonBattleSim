@@ -2,6 +2,8 @@ package com.PokemonBattleSim.main;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
+
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,10 +14,10 @@ public class LoadSavePanel extends JPanel{
 	public LoadSavePanel(Window window) {
 		this.window = window;
 		
-		JButton sf1Button = new JButton("Save File 1");
-		JButton sf2Button = new JButton("Save File 2");
-		JButton sf3Button = new JButton("Save File 3");
-		JButton backButton = new JButton("Indietro");
+		JButton sf1Button = Pulzante.creaPulzante("Salvataggio 1", "sound/Button.png", Color.WHITE);
+		JButton sf2Button = Pulzante.creaPulzante("Salvataggio 2", "sound/Button.png", Color.WHITE);
+		JButton sf3Button = Pulzante.creaPulzante("Salvataggio 3", "sound/Button.png", Color.WHITE);
+		JButton backButton = Pulzante.creaPulzante("Indietro", "sound/Button.png", Color.WHITE);
 		
 		backButton.addActionListener(new ActionListener() {
 			@Override
