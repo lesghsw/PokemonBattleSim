@@ -2,58 +2,47 @@ package com.PokemonBattleSim.main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ToggleButtonGrid extends JPanel {
 
-    private int rows;
-    private int cols;
-    private JToggleButton[][] buttons;
-    private int maxOnButtons = 6;
-    private int currentOnButtons = 0;
+    private String[] pokemonNames = {"Bulbasaur", "Charmander", "Squirtle"}; // Nomi dei pulsanti
+    private JToggleButton[] buttons; // Array per i pulsanti
+    private JToggleButton lastOnButton = null; // Traccia l'ultimo pulsante attivo
 
-    public ToggleButtonGrid(int rows, int cols) {
-        this.rows = rows;
-        this.cols = cols;
+    public ToggleButtonGrid() {
+        setLayout(new GridLayout(1, pokemonNames.length, 5, 5)); // Una riga con spaziatura
+        buttons = new JToggleButton[pokemonNames.length];
 
-        // GridLayout per posizionare i pulsanti
-        setLayout(new GridLayout(rows, cols, 5, 5)); // righe, colonne, spaziatura orizzontale, spaziatura verticale
+        for (int i = 0; i < pokemonNames.length; i++) {
+            JToggleButton toggleButton = new JToggleButton(pokemonNames[i]); // Nome del Pokémon sul pulsante
+            buttons[i] = toggleButton;
 
-        buttons = new JToggleButton[rows][cols];
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                JToggleButton toggleButton = new JToggleButton("OFF");
-                buttons[i][j] = toggleButton;
-
-                toggleButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        handleButtonClick(toggleButton);
-                    }
-                });
-                this.add(toggleButton);
-            }
+            toggleButton.addActionListener(e -> handleButtonClick(toggleButton));
+            this.add(toggleButton);
         }
     }
 
     private void handleButtonClick(JToggleButton button) {
         if (button.isSelected()) {
-            if (currentOnButtons < maxOnButtons) {
-                button.setText("ON");
-                currentOnButtons++;
-            } else {
-                button.setSelected(false);
-                button.setText("OFF");
+            if (lastOnButton != null && lastOnButton != button) {
+                lastOnButton.setSelected(false); // Spegne il precedente pulsante
             }
-        } else {
-            button.setText("OFF");
-            currentOnButtons--;
+            lastOnButton = button; // Aggiorna l'ultimo pulsante attivo
+        } else if (lastOnButton == button) {
+            lastOnButton = null; // Nessun pulsante attivo
         }
     }
 
-    public boolean isButtonOn(int row, int col) {
-        return buttons[row][col].isSelected();
+    private String getButtonName(JToggleButton button) {
+        for (int i = 0; i < pokemonNames.length; i++) {
+            if (buttons[i] == button) {
+                return pokemonNames[i]; // Restituisce il nome del Pokémon
+            }
+        }
+        return "";
+    }
+
+    public JToggleButton getLastOnButton() {
+        return lastOnButton;
     }
 }

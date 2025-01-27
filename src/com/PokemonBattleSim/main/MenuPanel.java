@@ -29,7 +29,7 @@ public class MenuPanel extends JPanel {
         JButton settingsButton = Pulzante.creaPulzante("Impostazioni", "sound/Button.png", Color.WHITE);
         JButton exitButton = Pulzante.creaPulzante("Esci", "sound/Button.png", Color.WHITE);
 
-        // Crea un pannello separatp per i pulsanti per usare BoxLayout per metterli in verticale
+        // Crea un pannello separato per i pulsanti per usare BoxLayout per metterli in verticale
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.setBackground(Color.WHITE);

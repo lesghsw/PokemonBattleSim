@@ -8,11 +8,9 @@ public class Trainer {
 	private List<Pokemon> pokemons = new ArrayList<Pokemon>();
 	private Pokemon activePokemon;
 	
-	public Trainer(String name, Pokemon pok1, Pokemon pok2, Pokemon pok3) {
+	public Trainer(String name, Pokemon pok1) {
 		this.name = name;
 		this.pokemons.add(pok1);
-		this.pokemons.add(pok2);
-		this.pokemons.add(pok3);
 		this.activePokemon = this.pokemons.get(0);
 	}
 

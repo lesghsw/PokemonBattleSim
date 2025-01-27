@@ -94,8 +94,8 @@ public class GamePanel extends JPanel implements Runnable{
 		Pokemon pok2 = pool.genBulbasaur();
 		Pokemon pok3 = pool.genSquirtle();
 		
-		player = new Trainer("PietroSmusi", pok1, pok2, pok3);
-		opponent = new Trainer("Oksana", pok1, pok2, pok3);
+		player = new Trainer("PietroSmusi", pok1);
+		opponent = new Trainer("Oksana", pok1);
 	}
 	
 	public void startGameThread() {
