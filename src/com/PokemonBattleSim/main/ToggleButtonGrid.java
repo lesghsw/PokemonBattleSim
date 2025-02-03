@@ -5,12 +5,13 @@ import java.awt.*;
 
 public class ToggleButtonGrid extends JPanel {
 
-    private String[] pokemonNames = {"Bulbasaur", "Charmander", "Squirtle"}; // Nomi dei pulsanti
+    private String[] pokemonNames = {"Bulbasaur","Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle", "Wartortle", "Blastoise"}; // Nomi dei pulsanti
     private JToggleButton[] buttons; // Array per i pulsanti
-    private JToggleButton lastOnButton = null; // Traccia l'ultimo pulsante attivo
+    private int maxOnButtons = 3;
+    private int currentOnButtons = 0;
 
     public ToggleButtonGrid() {
-        setLayout(new GridLayout(1, pokemonNames.length, 5, 5)); // Una riga con spaziatura
+        setLayout(new GridLayout(3, 3, 5, 5)); // Una riga con spaziatura
         buttons = new JToggleButton[pokemonNames.length];
 
         for (int i = 0; i < pokemonNames.length; i++) {
@@ -24,12 +25,13 @@ public class ToggleButtonGrid extends JPanel {
 
     private void handleButtonClick(JToggleButton button) {
         if (button.isSelected()) {
-            if (lastOnButton != null && lastOnButton != button) {
-                lastOnButton.setSelected(false); // Spegne il precedente pulsante
+        	if (currentOnButtons < maxOnButtons) {
+                currentOnButtons++;
+            } else {
+                button.setSelected(false);
             }
-            lastOnButton = button; // Aggiorna l'ultimo pulsante attivo
-        } else if (lastOnButton == button) {
-            lastOnButton = null; // Nessun pulsante attivo
+        } else {
+            currentOnButtons--;
         }
     }
 
@@ -40,9 +42,5 @@ public class ToggleButtonGrid extends JPanel {
             }
         }
         return "";
-    }
-
-    public JToggleButton getLastOnButton() {
-        return lastOnButton;
     }
 }

@@ -1,15 +1,15 @@
 package com.PokemonBattleSim.main;
 
 public class Battle {
-	private Trainer trainer1, trainer2;
+	private Trainer player1, player2;
 	
-	public Battle(Trainer trainer1, Trainer trainer2) {
-		this.trainer1 = trainer1;
-		this.trainer2 = trainer2;
+	public Battle(Trainer player1, Trainer player2) {
+		this.player1 = player1;
+		this.player2 = player2;
 	}
 	
 	public void runBattle() {
-		Pokemon pok1 = this.trainer1.getActivePokemon(), pok2 = this.trainer2.getActivePokemon();
+		Pokemon pok1 = this.player1.getActivePokemon(), pok2 = this.player2.getActivePokemon();
 		
 		if (pok1.getSpd() > pok2.getSpd()) {
 			pok1.attack(pok2);

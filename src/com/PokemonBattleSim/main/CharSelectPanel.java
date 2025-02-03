@@ -8,69 +8,84 @@ import java.awt.event.ActionListener;
 public class CharSelectPanel extends JPanel {
 
     private Window window;
-    private JLabel nomeTrainer;
-    private JLabel pkdx;
-    private JTextField fieldTrainer;
+    private JTextField fieldTrainer1, fieldTrainer2;
+    private ToggleButtonGrid gridPanel1, gridPanel2;
 
     public CharSelectPanel(Window window) {
         this.window = window;
 
-        // Configura il pannello principale
         this.setBackground(Color.WHITE);
         this.setLayout(new BorderLayout());
 
-        // Etichetta e campo di testo per il nome del trainer
-        nomeTrainer = new JLabel("Nome Allenatore:");
-        nomeTrainer.setFont(new Font("Arial", Font.BOLD, 18));
-        fieldTrainer = new JTextField(15);
-        fieldTrainer.setMaximumSize(new Dimension(300, 40));
+        // Etichette e campi per i nomi
+        JLabel nomeTrainer1 = new JLabel("Nome Allenatore 1:");
+        nomeTrainer1.setFont(new Font("Arial", Font.BOLD, 18));
+        fieldTrainer1 = new JTextField(15);
 
-        // Etichetta per la Pokédex
-        pkdx = new JLabel("Pokédex:");
-        pkdx.setFont(new Font("Arial", Font.BOLD, 18));
+        JLabel nomeTrainer2 = new JLabel("Nome Allenatore 2:");
+        nomeTrainer2.setFont(new Font("Arial", Font.BOLD, 18));
+        fieldTrainer2 = new JTextField(15);
 
-        // Griglia per la selezione dei Pokémon
-        ToggleButtonGrid gridPanel = new ToggleButtonGrid();
+        // Etichette Pokédex
+        JLabel pkdx1 = new JLabel("Pokédex Allenatore 1:");
+        pkdx1.setFont(new Font("Arial", Font.BOLD, 18));
 
-        // Pulsanti per navigare
+        JLabel pkdx2 = new JLabel("Pokédex Allenatore 2:");
+        pkdx2.setFont(new Font("Arial", Font.BOLD, 18));
+
+        // Griglie per la selezione Pokémon
+        gridPanel1 = new ToggleButtonGrid();
+        gridPanel2 = new ToggleButtonGrid();
+
+        // Pulsanti di navigazione
         JButton battleButton = Pulzante.creaPulzante("Inizia!", "sound/Button.png", Color.WHITE);
         JButton backButton = Pulzante.creaPulzante("Indietro", "sound/Button.png", Color.WHITE);
 
-        // Imposta le dimensioni dei pulsanti
         battleButton.setPreferredSize(new Dimension(150, 40));
         backButton.setPreferredSize(new Dimension(150, 40));
 
-        // Pannello per il nome e la griglia
-        JPanel tuttoPanel = new JPanel();
-        tuttoPanel.setLayout(new BoxLayout(tuttoPanel, BoxLayout.Y_AXIS));
-        tuttoPanel.setBackground(Color.WHITE);
-        tuttoPanel.add(Box.createVerticalStrut(10)); // Spazio iniziale
-        tuttoPanel.add(nomeTrainer);
-        tuttoPanel.add(Box.createVerticalStrut(5)); // Spazio tra etichetta e campo
-        tuttoPanel.add(fieldTrainer);
-        tuttoPanel.add(Box.createVerticalStrut(20)); // Spazio tra il nome e la Pokédex
-        tuttoPanel.add(pkdx);
-        tuttoPanel.add(Box.createVerticalStrut(5));
-        tuttoPanel.add(gridPanel);
+        // Pannello per il layout a due colonne
+        JPanel trainerPanel = new JPanel(new GridLayout(1, 3));
+        trainerPanel.setBackground(Color.WHITE);
+
+        // Pannello del primo allenatore
+        JPanel trainer1Panel = new JPanel();
+        trainer1Panel.setLayout(new BoxLayout(trainer1Panel, BoxLayout.Y_AXIS));
+        trainer1Panel.setBackground(Color.WHITE);
+        trainer1Panel.add(nomeTrainer1);
+        trainer1Panel.add(fieldTrainer1);
+        trainer1Panel.add(Box.createVerticalStrut(10));
+        trainer1Panel.add(pkdx1);
+        trainer1Panel.add(gridPanel1);
+
+        // Pannello del secondo allenatore
+        JPanel trainer2Panel = new JPanel();
+        trainer2Panel.setLayout(new BoxLayout(trainer2Panel, BoxLayout.Y_AXIS));
+        trainer2Panel.setBackground(Color.WHITE);
+        trainer2Panel.add(nomeTrainer2);
+        trainer2Panel.add(fieldTrainer2);
+        trainer2Panel.add(Box.createVerticalStrut(10));
+        trainer2Panel.add(pkdx2);
+        trainer2Panel.add(gridPanel2);
+
+        // Aggiunta dei pannelli alla griglia principale
+        trainerPanel.add(trainer1Panel);
+        trainerPanel.add(trainer2Panel);
 
         // Pannello per i pulsanti
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BorderLayout());
+        JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.add(battleButton, BorderLayout.EAST);
+        buttonPanel.add(backButton, BorderLayout.WEST);
 
-        // Aggiungi i pulsanti ai lati opposti
-        buttonPanel.add(battleButton, BorderLayout.WEST); // Pulsante "Inizia!" a sinistra
-        buttonPanel.add(backButton, BorderLayout.EAST);  // Pulsante "Indietro" a destra
-
-        // Aggiungi i pannelli al pannello principale
-        this.add(tuttoPanel, BorderLayout.CENTER);
+        // Aggiunta dei pannelli al `CharSelectPanel`
+        this.add(trainerPanel, BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.SOUTH);
 
         // Listener per il pulsante "Inizia!"
         battleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameState.state = GameState.PLAYING;
                 window.showPanel("Game");
                 window.getGamePanel().startGameThread(); // Avvia il thread della battaglia
             }
@@ -80,7 +95,6 @@ public class CharSelectPanel extends JPanel {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameState.state = GameState.MENU;
                 window.showPanel("Menu");
             }
         });

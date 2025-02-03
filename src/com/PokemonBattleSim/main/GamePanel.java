@@ -17,30 +17,22 @@ public class GamePanel extends JPanel implements Runnable{
 	final int screenWidth = 1280;
 	final int screenHeight = 720;
 	
-	// AGGIUNGERE GAME STATES
-	private Playing playing;
-	private Menu menu;
-	
 	// FPS
 	int FPS = 60;
 	
 	// VARIE
-	private KeyHandler keyH;
 	private Thread gameThread;
-	private State state;
-	private GameSettings settings;
-	private GameController gameController;
 	private Sound sound;
 	
 	// BATTAGLIA
-	private Trainer player;
-	private Trainer opponent;
+	private Trainer player1;
+	private Trainer player2;
 	private JButton atButton1;
 	private JButton atButton2;
 	private JButton atButton3;
 	private JButton atButton4;
 	private JButton swButton;
-	private Turn currentTurn = Turn.PLAYER_TURN;
+	private Turn currentTurn = Turn.PLAYER1;
 	
 	
 	public GamePanel() {
@@ -79,23 +71,12 @@ public class GamePanel extends JPanel implements Runnable{
 	    this.add(atButton4);
 	    this.add(swButton);
 		
-		keyH = new KeyHandler(this);
-		this.addKeyListener(keyH);
-		this.addMouseListener(keyH);
-		this.addMouseMotionListener(keyH);
-		
-		settings = new GameSettings(false);
-		gameController = new GameController(keyH);
 		sound = new Sound();
 		
 		PokemonPool pool = new PokemonPool();
 		
-		Pokemon pok1 = pool.genCharmander();
-		Pokemon pok2 = pool.genBulbasaur();
-		Pokemon pok3 = pool.genSquirtle();
-		
-		player = new Trainer("PietroSmusi", pok1);
-		opponent = new Trainer("Oksana", pok1);
+		player1 = new Trainer("PietroSmusi", pool.genCharmander());
+		player2 = new Trainer("Oksana", pool.genCharmander());
 	}
 	
 	public void startGameThread() {
@@ -140,34 +121,22 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 	}
 	
-	public void update() {		
-		gameController.update(this);
-		handleMouseInput();
+	public void update() {
 		}
-	
-	private void handleMouseInput() {
-		
-		if(keyH.isMouseClicked()) {
-			System.out.println(String.format("Mouse cliccato in posizione x:%d y:%d", keyH.getMousePosition().getX(), keyH.getMousePosition().getY()));
-		}
-		
-		keyH.clearMouseClick();
-	}
 	
 	private enum Turn {
-	    PLAYER_TURN,
-	    OPPONENT_TURN
+	    PLAYER1,
+	    PLAYER2
 	}
 	
 	private void handleAction(String actionCommand) {
-	    if (currentTurn == Turn.PLAYER_TURN) {
-	        Pokemon activePokemon = player.getActivePokemon();
+	    if (currentTurn == Turn.PLAYER1) {
+	        Pokemon activePokemon = player1.getActivePokemon();
 	        String moveName = "";
-
-	        // Mappa i pulsanti alla mossa corretta
+	        // Mappa i pulsanti alla mossa corretta (modificare alle mosse corrette)
 	        switch (actionCommand) {
 	            case "MOVE1":
-	                moveName = "Growl"; // Modifica con la mossa corretta
+	                moveName = "Growl";
 	                break;
 	            case "MOVE2":
 	                moveName = "Scratch";
@@ -184,42 +153,59 @@ public class GamePanel extends JPanel implements Runnable{
 	        if (!moveName.isEmpty()) {
 	            activePokemon.setActiveMove(moveName);
 	        }
+	        endTurn(); // Passa al turno del player2
+	    } else if (currentTurn == Turn.PLAYER2) {
+	    	Pokemon activePokemon = player2.getActivePokemon();
+	        String moveName = "";
+	        // Mappa i pulsanti alla mossa corretta (modificare alle mosse corrette)
+	        switch (actionCommand) {
+	            case "MOVE1":
+	                moveName = "Growl";
+	                break;
+	            case "MOVE2":
+	                moveName = "Scratch";
+	                break;
+	            case "MOVE3":
+	                moveName = "Tackle";
+	                break;
+	            case "MOVE4":
+	                moveName = "Tail Whip";
+	                break;
+	        }
 
-	        // Esegui la battaglia
-	        Battle battle = new Battle(player, opponent);
-	        battle.runBattle();
-
-	        // Cambia turno
-	        endTurn();
+	        // Imposta la mossa attiva
+	        if (!moveName.isEmpty()) {
+	            activePokemon.setActiveMove(moveName);
+	        }
+	        executeTurn(); // Esegui la battaglia solo dopo la scelta di entrambi
 	    }
 	}
+	
+	private void executeTurn() {
+	        Battle battle = new Battle(player1, player2);
+	        battle.runBattle();
 
-    private void handleSwitch() {
-        if (currentTurn == Turn.PLAYER_TURN) {
-        // Tasto per switchare pokémon?
-            endTurn();
-        }
-    }
-	
-	private void opponentTurn() {
-        // Azione della CPU?
-        endTurn();
-    }
-	
+	        // Passa il turno a player1
+	        currentTurn = Turn.PLAYER1;
+	}
+
 	private void endTurn() {
-        if (currentTurn == Turn.PLAYER_TURN) {
-            currentTurn = Turn.OPPONENT_TURN;
-            opponentTurn();
-        } else {
-            currentTurn = Turn.PLAYER_TURN;
-        }
+	    if (currentTurn == Turn.PLAYER1) {
+	        currentTurn = Turn.PLAYER2;
+	    } else {
+	        executeTurn(); // Se entrambi hanno scelto, esegui la battaglia
+	    }
+	}
+	
+    private void handleSwitch() {
     }
+
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		Pokemon playerPokemon = player.getActivePokemon();
-	    Pokemon opponentPokemon = opponent.getActivePokemon();
+		Pokemon player1Pokemon = player1.getActivePokemon();
+	    Pokemon player2Pokemon = player2.getActivePokemon();
 		
 	    Image playerSprite = Toolkit.getDefaultToolkit().getImage(getClass().getResource("sound/Robert.png"));
 	    Image opponentSprite = Toolkit.getDefaultToolkit().getImage(getClass().getResource("sound/Robert.png"));
@@ -227,8 +213,8 @@ public class GamePanel extends JPanel implements Runnable{
 	    g.drawImage(playerSprite, 100, 400, this);
 	    g.drawImage(opponentSprite, 1117, 100, this);
 	    
-	    drawHealthBar(g, playerPokemon, 100, 370);
-	    drawHealthBar(g, opponentPokemon, 980, 70);
+	    drawHealthBar(g, player1Pokemon, 100, 370);
+	    drawHealthBar(g, player2Pokemon, 980, 70);
 	}
 
 	private void drawHealthBar(Graphics g, Pokemon pokemon, int x, int y) {
@@ -240,6 +226,7 @@ public class GamePanel extends JPanel implements Runnable{
 	    Color barColor = Color.GREEN;
 	    if (pokemon.getHp() / pokemon.getMaxHp() < 0.5) barColor = Color.YELLOW;
 	    if (pokemon.getHp() / pokemon.getMaxHp() < 0.2) barColor = Color.RED;
+//	    if (pokemon.getHp() == 0) = MUORI;
 	    
 	    g.setColor(barColor);
 	    g.fillRect(x, y, hpWidth, 20); // Barra vita
@@ -262,9 +249,4 @@ public class GamePanel extends JPanel implements Runnable{
 		sound.setFile(i);
 		sound.play();
 	}
-
-	public GameSettings getSettings() {
-		return settings;
-	}
 }
-

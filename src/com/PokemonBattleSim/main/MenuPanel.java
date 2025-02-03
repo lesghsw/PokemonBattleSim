@@ -63,7 +63,6 @@ public class MenuPanel extends JPanel {
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameState.state = GameState.SETTINGS;
                 window.showPanel("Settings");
             }
         });
@@ -71,7 +70,6 @@ public class MenuPanel extends JPanel {
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameState.state = GameState.SAVEFILE;
                 window.showPanel("LoadSave");
             }
         });
@@ -79,7 +77,6 @@ public class MenuPanel extends JPanel {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameState.state = GameState.CHRSEL;
                 window.showPanel("CharSelect");
             }
         });

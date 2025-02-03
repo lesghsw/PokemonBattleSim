@@ -66,7 +66,6 @@ public class SettingsPanel extends JPanel{
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				GameState.state = GameState.MENU;
 				window.showPanel("Menu");
 			}
 		});
