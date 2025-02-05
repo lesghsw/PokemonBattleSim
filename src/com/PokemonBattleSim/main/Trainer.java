@@ -8,6 +8,12 @@ public class Trainer {
 	private List<Pokemon> pokemons = new ArrayList<Pokemon>();
 	private Pokemon activePokemon;
 	
+	public Trainer() {}
+	
+	public Trainer(String name) {
+		this.name = name;
+	}
+	
 	public Trainer(String name, Pokemon pok1) {
 		this.name = name;
 		this.pokemons.add(pok1);
@@ -16,6 +22,10 @@ public class Trainer {
 
 	public Pokemon getActivePokemon() {
 		return this.activePokemon;
+	}
+	
+	public List<Pokemon> getPokemonList() {
+		return new ArrayList<>(this.pokemons);
 	}
 
 	public String getName() {
@@ -26,5 +36,7 @@ public class Trainer {
 		this.activePokemon = activePokemon;
 	}
 	
-	
+	public void addPokemon(Pokemon newPokemon) {
+		this.pokemons.add(newPokemon);
+	}
 }

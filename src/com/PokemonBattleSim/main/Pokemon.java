@@ -86,8 +86,16 @@ public class Pokemon {
 		return this.moves.get(name);
 	}
 	
+	public List<PokemonMove> getMoves() {
+		List<PokemonMove> movesList = new ArrayList<PokemonMove>();
+		for(PokemonMove value : this.moves.values()) {
+			movesList.add(value);
+		}
+		return movesList;
+	}
+	
 	public List<PokemonType> getTypes() {
-		return this.types;
+		return new ArrayList<>(this.types);
 	}
 	
 	public float getMaxHp() {

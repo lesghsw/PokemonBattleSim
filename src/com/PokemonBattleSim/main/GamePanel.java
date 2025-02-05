@@ -73,10 +73,8 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		sound = new Sound();
 		
-		PokemonPool pool = new PokemonPool();
-		
-		player1 = new Trainer("PietroSmusi", pool.genCharmander());
-		player2 = new Trainer("Oksana", pool.genCharmander());
+		player1 = new Trainer("PietroSmusi", PokemonPool.genCharmander());
+		player2 = new Trainer("Oksana", PokemonPool.genCharmander());
 	}
 	
 	public void startGameThread() {
@@ -184,7 +182,6 @@ public class GamePanel extends JPanel implements Runnable{
 	private void executeTurn() {
 	        Battle battle = new Battle(player1, player2);
 	        battle.runBattle();
-
 	        // Passa il turno a player1
 	        currentTurn = Turn.PLAYER1;
 	}
