@@ -1,10 +1,6 @@
 package com.PokemonBattleSim.main;
 
 public class PokemonPool {
-	public PokemonPool() {
-		movePool = new PokemonMovePool();
-	}
-	
 	public static Pokemon genCharmander() {
 		return new Pokemon("Charmander", 39, PokemonType.FIRE, PokemonMovePool.genGrowl(), PokemonMovePool.genScratch(), 5, 52, 43, 60, 50, 65);
 	}
