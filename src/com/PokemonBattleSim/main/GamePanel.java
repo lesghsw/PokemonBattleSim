@@ -234,12 +234,15 @@ public class GamePanel extends JPanel implements Runnable{
 	        switch (actionCommand) {
 	            case "1":
 	                player1.setActivePokemon(player1.getPokemonList().get(0));
+	                player1.getActivePokemon().setActiveMove(null);
 	                break;
 	            case "2":
 	            	player1.setActivePokemon(player1.getPokemonList().get(1));
+	            	player1.getActivePokemon().setActiveMove(null);
 	                break;
 	            case "3":
 	            	player1.setActivePokemon(player1.getPokemonList().get(2));
+	            	player1.getActivePokemon().setActiveMove(null);
 	                break;
 	        }
 	        
@@ -259,12 +262,15 @@ public class GamePanel extends JPanel implements Runnable{
 	        switch (actionCommand) {
 	            case "1":
 	                player2.setActivePokemon(player2.getPokemonList().get(0));
+	                player2.getActivePokemon().setActiveMove(null);
 	                break;
 	            case "2":
 	            	player2.setActivePokemon(player2.getPokemonList().get(1));
+	                player2.getActivePokemon().setActiveMove(null);
 	                break;
 	            case "3":
 	            	player2.setActivePokemon(player2.getPokemonList().get(2));
+	                player2.getActivePokemon().setActiveMove(null);
 	                break;
 	        }
 	        
