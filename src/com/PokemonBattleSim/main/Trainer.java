@@ -36,7 +36,14 @@ public class Trainer {
 		this.activePokemon = activePokemon;
 	}
 	
+	public void setActivePokemon(int idx) {
+		this.activePokemon = pokemons.get(idx);
+	}
+	
 	public void addPokemon(Pokemon newPokemon) {
 		this.pokemons.add(newPokemon);
+		if (this.pokemons.size() == 1) {
+			this.activePokemon = newPokemon;
+		}
 	}
 }
