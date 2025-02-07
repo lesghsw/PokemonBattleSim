@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class CharSelectPanel extends JPanel {
 
@@ -86,6 +87,19 @@ public class CharSelectPanel extends JPanel {
         battleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	// Nome Trainer 1 e 2
+            	String trainer1Name = fieldTrainer1.getText().trim();
+                String trainer2Name = fieldTrainer2.getText().trim();
+
+                // Squadra 1 e 2
+                List<String> selected1 = gridPanel1.getSelectedPokemon();
+                List<String> selected2 = gridPanel2.getSelectedPokemon();
+
+                // Stampa per debug
+                System.out.println("Allenatore 1: " + trainer1Name + " ha scelto: " + selected1);
+                System.out.println("Allenatore 2: " + trainer2Name + " ha scelto: " + selected2);
+                
+                window.getGamePanel().setupTrainers(trainer1Name, selected1, trainer2Name, selected2);
                 window.showPanel("Game");
                 window.getGamePanel().startGameThread(); // Avvia il thread della battaglia
             }

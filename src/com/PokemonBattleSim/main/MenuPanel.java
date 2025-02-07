@@ -25,7 +25,7 @@ public class MenuPanel extends JPanel {
 
         // Crea i pulsanti
         JButton startButton = Pulzante.creaPulzante("Inizia", "sound/Button.png", Color.WHITE);
-        JButton loadButton = Pulzante.creaPulzante("Carica", "sound/Button.png", Color.WHITE);
+        JButton loadButton = Pulzante.creaPulzante("Mostra Profili", "sound/Button.png", Color.WHITE);
         JButton settingsButton = Pulzante.creaPulzante("Impostazioni", "sound/Button.png", Color.WHITE);
         JButton exitButton = Pulzante.creaPulzante("Esci", "sound/Button.png", Color.WHITE);
 
