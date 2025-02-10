@@ -7,6 +7,7 @@ public class Trainer {
 	private String name;
 	private List<Pokemon> pokemons = new ArrayList<Pokemon>();
 	private Pokemon activePokemon;
+	private int deadPokemonCount;
 	
 	public Trainer() {}
 	
@@ -33,6 +34,10 @@ public class Trainer {
 	public String getName() {
 		return this.name;
 	}
+	
+	public int getDeadPokemonCount() {
+		return this.deadPokemonCount;
+	}
 
 	public void setActivePokemon(Pokemon activePokemon) {
 		this.activePokemon = activePokemon;
@@ -47,5 +52,16 @@ public class Trainer {
 		if (this.pokemons.size() == 1) {
 			this.activePokemon = newPokemon;
 		}
+	}
+	
+	public void pokemonDied() {
+		this.deadPokemonCount += 1;
+		if (this.deadPokemonCount != 3) {
+			for(Pokemon pokemon : this.pokemons) {
+				if (pokemon.getHp() > 0.0f) {
+					this.setActivePokemon(pokemon);
+				}
+			}
+		} else { this.activePokemon = null; }
 	}
 }

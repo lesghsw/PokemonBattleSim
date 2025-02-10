@@ -111,7 +111,15 @@ public class Pokemon {
 	}
 	
 	public void setActiveMove(String moveName) {
-		this.activeMove = this.moves.getOrDefault(moveName, this.activeMove);
+		if(moveName != null) {
+			this.activeMove = this.moves.getOrDefault(moveName, this.activeMove);
+		} else {
+			this.activeMove = null;
+		}
+	}
+	
+	public void setActiveMove(int idx) {
+		this.activeMove = getMoves().get(idx);
 	}
 	
 	public void addMove(PokemonMove move) {
