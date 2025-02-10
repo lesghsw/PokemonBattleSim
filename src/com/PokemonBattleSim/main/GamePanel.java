@@ -1,9 +1,12 @@
 package com.PokemonBattleSim.main;
 
+import java.awt.BorderLayout;
 import java.awt.Color; // per colori
 import java.awt.Dimension; // per dimensione finestra
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.Random;
 //import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.util.List;
@@ -31,12 +34,13 @@ public class GamePanel extends JPanel implements Runnable{
 	private Battle battle;
 	private JButton atButton1;
 	private JButton atButton2;
-	private JButton atButton3;
-	private JButton atButton4;
+/*	private JButton atButton3;
+	private JButton atButton4;	*/
 	private JButton swButton;
 	private JButton pk1Button;
 	private JButton pk2Button;
 	private JButton pk3Button;
+	private JButton muteButton;
 	private Turn currentTurn = Turn.PLAYER1;
 	
 	
@@ -45,15 +49,17 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
 		this.setDoubleBuffered(true);
 		this.setFocusable(true);
+		this.setLayout(new BorderLayout());
 		
-		atButton1 = new JButton("Mossa 1");
-	    atButton2 = new JButton("Mossa 2");
-/*	    atButton3 = new JButton("Mossa 3");
-	    atButton4 = new JButton("Mossa 4");		*/
+		atButton1 = new JButton();
+	    atButton2 = new JButton();
+/*	    atButton3 = new JButton();
+	    atButton4 = new JButton();		*/
 	    swButton = new JButton("Switch");
-	    pk1Button = new JButton("1");
-	    pk2Button = new JButton("2");
-	    pk3Button = new JButton("3");
+	    pk1Button = new JButton();
+	    pk2Button = new JButton();
+	    pk3Button = new JButton();
+	    muteButton = new JButton("M");
 
 	    atButton1.setActionCommand("MOVE1");
 	    atButton2.setActionCommand("MOVE2");
@@ -71,6 +77,26 @@ public class GamePanel extends JPanel implements Runnable{
 	    pk1Button.addActionListener(e -> handleSwitch(e.getActionCommand()));
 	    pk2Button.addActionListener(e -> handleSwitch(e.getActionCommand()));
 	    pk3Button.addActionListener(e -> handleSwitch(e.getActionCommand()));;
+	    muteButton.addActionListener(e -> handleSound());
+	    
+	    // Pannello tasto muta
+	    JPanel topLeftPanel = new JPanel();
+	    topLeftPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+	    topLeftPanel.add(muteButton);
+	    this.add(topLeftPanel, BorderLayout.NORTH);
+
+	    // Pannello tasti battaglia + cambio pkmn
+	    JPanel buttonPanel = new JPanel();
+	    buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+	    buttonPanel.add(atButton1);
+	    buttonPanel.add(atButton2);
+	    buttonPanel.add(swButton);
+	    buttonPanel.add(pk1Button);
+		buttonPanel.add(pk2Button);
+		buttonPanel.add(pk3Button);
+
+		this.add(buttonPanel, BorderLayout.SOUTH);
 	    
 	    pk1Button.setVisible(false);
 	    pk2Button.setVisible(false);
@@ -80,16 +106,8 @@ public class GamePanel extends JPanel implements Runnable{
 		atButton2.setFocusable(false);
 		atButton3.setFocusable(false);
 		atButton4.setFocusable(false);
-		swButton.setFocusable(false); **/
-		
-		this.add(atButton1);
-	    this.add(atButton2);
-/*	    this.add(atButton3);
-	    this.add(atButton4);	*/
-	    this.add(swButton);
-	    this.add(pk1Button);
-	    this.add(pk2Button);
-	    this.add(pk3Button);
+		swButton.setFocusable(false);
+		muteButton.setFocusable(false); **/
 		
 		sound = new Sound();
 	}
@@ -98,7 +116,10 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		gameThread = new Thread(this);
 		gameThread.start();
-		playMusic(0);
+		Random rand = new Random();
+		int randomMusic = rand.nextInt(5);
+		playMusic(randomMusic);
+		updateMoveButtons();
 	}
 
 	@Override
@@ -127,7 +148,7 @@ public class GamePanel extends JPanel implements Runnable{
 			}
 			
 			if (timer >= 1000000000) {
-				// System.out.println("FPS: " + drawCount);
+//				System.out.println("FPS: " + drawCount);
 				drawCount = 0;
 				timer = 0;
 			}
@@ -160,13 +181,8 @@ public class GamePanel extends JPanel implements Runnable{
 	    player2 = new Trainer(trainer2Name);
 
 	    // Aggiunge Pokémon da Stringa usando metodo sorpa
-	    for (String pokemonName : selected1) {
-	        player1.addPokemon(generatePokemon(pokemonName));
-	    }
-	    
-	    for (String pokemonName : selected2) {
-	        player2.addPokemon(generatePokemon(pokemonName));
-	    }
+	    for (String pokemonName : selected1) { player1.addPokemon(generatePokemon(pokemonName)); }  
+	    for (String pokemonName : selected2) { player2.addPokemon(generatePokemon(pokemonName)); }
 
 	    battle = new Battle(player1, player2);
 	}
@@ -194,12 +210,10 @@ public class GamePanel extends JPanel implements Runnable{
 	            case "MOVE4":
 	            	moveName = moves.get(3);
 	                break; 						*/
+	            default: break;
 	        }
-
 	        // Imposta la mossa attiva
-	        if (moveName != null) {
-	            activePokemon.setActiveMove(moveName.getName());
-	        }
+	        activePokemon.setActiveMove(moveName.getName());
 	        endTurn(); // Passa al turno del player2
 	    } else if (currentTurn == Turn.PLAYER2) {
 	    	Pokemon activePokemon = player2.getActivePokemon();
@@ -218,12 +232,10 @@ public class GamePanel extends JPanel implements Runnable{
 	            case "MOVE4":
 	            	moveName = moves.get(3);
 	                break; 						*/
+	           default: break;
 	        }
-
-	        // Imposta la mossa attiva
-	        if (moveName != null) {
-	            activePokemon.setActiveMove(moveName.getName());
-	        }
+	        // Imposta mossa player 2
+	        activePokemon.setActiveMove(moveName.getName());
 	        initBattle(); // Esegui la battaglia solo dopo la scelta di entrambi
 	    }
 	}
@@ -256,7 +268,7 @@ public class GamePanel extends JPanel implements Runnable{
 		    pk2Button.setVisible(false);
 		    pk3Button.setVisible(false);
 	        
-	        endTurn(); // Passa al turno del player2
+	        endTurn();
 	    } else if (currentTurn == Turn.PLAYER2) {
 //	    	Pokemon activePokemon = player2.getActivePokemon();
 	        switch (actionCommand) {
@@ -284,7 +296,7 @@ public class GamePanel extends JPanel implements Runnable{
 		    pk2Button.setVisible(false);
 		    pk3Button.setVisible(false);
 	        
-	        initBattle(); // Esegui la battaglia solo dopo la scelta di entrambi
+	        initBattle();
 	    }
 	}
 	
@@ -298,20 +310,52 @@ public class GamePanel extends JPanel implements Runnable{
 	    pk1Button.setVisible(true);
 	    pk2Button.setVisible(true);
 	    pk3Button.setVisible(true);
+	    
+	    updateSwitchButtons();
+	}
+	
+	private void updateSwitchButtons() {
+	    Trainer currentTrainer = (currentTurn == Turn.PLAYER1) ? player1 : player2; // Prende trainer attuale
+	    List<Pokemon> pokemonList = currentTrainer.getPokemonList();
+
+	    if (pokemonList.size() > 0) pk1Button.setText(pokemonList.get(0).getName());
+	    if (pokemonList.size() > 1) pk2Button.setText(pokemonList.get(1).getName());
+	    if (pokemonList.size() > 2) pk3Button.setText(pokemonList.get(2).getName());
+	}
+	
+	private void updateMoveButtons() {
+	    Pokemon activePokemon = (currentTurn == Turn.PLAYER1) ? player1.getActivePokemon() : player2.getActivePokemon();
+	    List<PokemonMove> moves = activePokemon.getMoves();
+
+	    if (moves.size() > 0) atButton1.setText(moves.get(0).getName());
+	    if (moves.size() > 1) atButton2.setText(moves.get(1).getName());
+	    // In caso
+	    // if (moves.size() > 2) atButton3.setText(moves.get(2).getName());
+	    // if (moves.size() > 3) atButton4.setText(moves.get(3).getName());
 	}
 	
 	private void initBattle() {
 	        battle.runBattle();
 
-	        // Passa il turno a player1
 	        currentTurn = Turn.PLAYER1;
+	        updateMoveButtons();
 	}
 
 	private void endTurn() {
 	    if (currentTurn == Turn.PLAYER1) {
 	        currentTurn = Turn.PLAYER2;
+	        updateMoveButtons();
 	    } else {
-	    	initBattle(); // Se entrambi hanno scelto, esegui la battaglia
+	    	initBattle(); // Dopo entrambi i turni battaglia
+	    }
+	}
+	
+	private void handleSound() {
+		if (sound.isPlaying()) {
+	        sound.stop();
+	    } else {
+	        sound.play();
+	        sound.loop();
 	    }
 	}
 	
@@ -321,8 +365,8 @@ public class GamePanel extends JPanel implements Runnable{
 		Pokemon player1Pokemon = player1.getActivePokemon();
 	    Pokemon player2Pokemon = player2.getActivePokemon();
 		
-	    Image playerSprite = Toolkit.getDefaultToolkit().getImage(getClass().getResource("sound/Robert.png"));
-	    Image opponentSprite = Toolkit.getDefaultToolkit().getImage(getClass().getResource("sound/Robert.png"));
+	    Image playerSprite = Toolkit.getDefaultToolkit().getImage(getClass().getResource(player1Pokemon.getSpriteBack()));
+	    Image opponentSprite = Toolkit.getDefaultToolkit().getImage(getClass().getResource(player2Pokemon.getSpriteFront()));
 	    
 	    g.drawImage(playerSprite, 100, 400, this);
 	    g.drawImage(opponentSprite, 1117, 100, this);

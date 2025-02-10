@@ -13,10 +13,12 @@ public class Sound {
 	
 	public Sound() {
 		
-		soundURL[0] = getClass().getResource("sound/Battle1.wav");
-		soundURL[1] = getClass().getResource("sound/Battle2.wav");
-		soundURL[2] = getClass().getResource("sound/Battle3.wav");
-	}
+		soundURL[0] = getClass().getResource("ref/Battle1.wav");
+		soundURL[1] = getClass().getResource("ref/Battle2.wav");
+		soundURL[2] = getClass().getResource("ref/Battle3.wav");
+		soundURL[3] = getClass().getResource("ref/Battle4.wav");
+		soundURL[4] = getClass().getResource("ref/Battle5.wav");
+}
 	
 	public void setFile(int i) {
 		
@@ -43,5 +45,9 @@ public class Sound {
 	public void stop() {
 	
 		clip.stop();
+	}
+	
+	public boolean isPlaying() {
+	    return clip != null && clip.isRunning();
 	}
 }

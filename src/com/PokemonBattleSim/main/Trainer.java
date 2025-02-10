@@ -34,11 +34,11 @@ public class Trainer {
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public int getDeadPokemonCount() {
 		return this.deadPokemonCount;
 	}
-
+	
 	public void setActivePokemon(Pokemon activePokemon) {
 		this.activePokemon = activePokemon;
 	}

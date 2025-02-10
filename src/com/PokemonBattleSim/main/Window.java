@@ -22,13 +22,11 @@ public class Window {
 
 		gamePanel = new GamePanel();
 		CharSelectPanel charSelectPanel = new CharSelectPanel(this);
-		SettingsPanel settingsPanel = new SettingsPanel(this);
 		ShowProfilePanel loadSavePanel = new ShowProfilePanel(this);
 		MenuPanel menuPanel = new MenuPanel(this);
 
 		mainPanel.add(menuPanel, "Menu");
 		mainPanel.add(charSelectPanel, "CharSelect");
-		mainPanel.add(settingsPanel, "Settings");
 		mainPanel.add(loadSavePanel, "LoadSave");
 		mainPanel.add(gamePanel, "Game");
 

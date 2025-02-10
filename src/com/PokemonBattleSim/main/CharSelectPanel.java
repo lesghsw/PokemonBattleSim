@@ -28,7 +28,7 @@ public class CharSelectPanel extends JPanel {
         fieldTrainer2 = new JTextField(15);
 
         // Etichette Pokédex
-        JLabel pkdx1 = new JLabel("Pokédex Allenatore 1:");
+        JLabel pkdx1 = new JLabel("Squadra Allenatore 1:");
         pkdx1.setFont(new Font("Arial", Font.BOLD, 18));
 
         JLabel pkdx2 = new JLabel("Pokédex Allenatore 2:");
@@ -39,8 +39,8 @@ public class CharSelectPanel extends JPanel {
         gridPanel2 = new ToggleButtonGrid();
 
         // Pulsanti di navigazione
-        JButton battleButton = Pulzante.creaPulzante("Inizia!", "sound/Button.png", Color.WHITE);
-        JButton backButton = Pulzante.creaPulzante("Indietro", "sound/Button.png", Color.WHITE);
+        JButton battleButton = Pulzante.creaPulzante("Inizia!", "ref/Button.png", Color.WHITE);
+        JButton backButton = Pulzante.creaPulzante("Indietro", "ref/Button.png", Color.WHITE);
 
         battleButton.setPreferredSize(new Dimension(150, 40));
         backButton.setPreferredSize(new Dimension(150, 40));
@@ -94,6 +94,15 @@ public class CharSelectPanel extends JPanel {
                 // Squadra 1 e 2
                 List<String> selected1 = gridPanel1.getSelectedPokemon();
                 List<String> selected2 = gridPanel2.getSelectedPokemon();
+                
+                // Controlla se entrambi hanno messo 3 pkmn
+                if (selected1.size() != 3 || selected2.size() != 3) {
+                    JOptionPane.showMessageDialog(CharSelectPanel.this,
+                        "Entrambi gli allenatori devono selezionare esattamente 3 Pokémon!",
+                        "Attenzione!",
+                        JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
 
                 // Stampa per debug
                 System.out.println("Allenatore 1: " + trainer1Name + " ha scelto: " + selected1);

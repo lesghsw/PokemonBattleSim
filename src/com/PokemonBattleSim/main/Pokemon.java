@@ -1,7 +1,7 @@
 package com.PokemonBattleSim.main;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -10,7 +10,7 @@ public class Pokemon {
 	private float hp;
 	private final float maxHp;
 	private List<PokemonType> types = new ArrayList<PokemonType>();
-	private HashMap<String, PokemonMove> moves = new HashMap<String, PokemonMove>();
+	private LinkedHashMap<String, PokemonMove> moves = new LinkedHashMap<String, PokemonMove>();
 	private PokemonMove activeMove;
 	private int lvl;
 	private int atk;
@@ -35,8 +35,8 @@ public class Pokemon {
 		this.def = def;
 		this.spDef = spDef;
 		this.spd = spd;
-		this.imgSrcFront = "/" + name.toLowerCase() + "/front.png";
-		this.imgSrcBack = "/" + name.toLowerCase() + "/back.png";
+		this.imgSrcFront = "ref/" + name.toLowerCase() + "/front.png";
+		this.imgSrcBack = "ref/" + name.toLowerCase() + "/back.png";
 	}
 	
 	public Pokemon(String name, int hp, PokemonType type1, PokemonType type2, PokemonMove move1, PokemonMove move2, int lvl, int atk, int def, int spAtk, int spDef, int spd) {
@@ -54,8 +54,8 @@ public class Pokemon {
 		this.def = def;
 		this.spDef = spDef;
 		this.spd = spd;
-		this.imgSrcFront = "/" + name.toLowerCase() + "/front.png";
-		this.imgSrcBack = "/" + name.toLowerCase() + "/back.png";
+		this.imgSrcFront = "ref/" + name.toLowerCase() + "/front.png";
+		this.imgSrcBack = "ref/" + name.toLowerCase() + "/back.png";
 	}
 	
 	public float getHp() {

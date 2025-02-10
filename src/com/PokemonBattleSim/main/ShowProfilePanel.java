@@ -20,10 +20,10 @@ public class ShowProfilePanel extends JPanel{
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(Color.WHITE);
 		
-		JButton sf1Button = Pulzante.creaPulzante("Profilo 1", "sound/Button.png", Color.WHITE);
-		JButton sf2Button = Pulzante.creaPulzante("Profilo 2", "sound/Button.png", Color.WHITE);
-		JButton sf3Button = Pulzante.creaPulzante("Profilo 3", "sound/Button.png", Color.WHITE);
-		JButton backButton = Pulzante.creaPulzante("Indietro", "sound/Button.png", Color.WHITE);
+		JButton sf1Button = Pulzante.creaPulzante("Profilo 1", "ref/Button.png", Color.WHITE);
+		JButton sf2Button = Pulzante.creaPulzante("Profilo 2", "ref/Button.png", Color.WHITE);
+		JButton sf3Button = Pulzante.creaPulzante("Profilo 3", "ref/Button.png", Color.WHITE);
+		JButton backButton = Pulzante.creaPulzante("Indietro", "ref/Button.png", Color.WHITE);
 		
 		// Dimensioni Pulsanti
 		sf1Button.setMaximumSize(new Dimension(300, 40));
