@@ -15,8 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 
+@SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable{
-
 	// IMPOSTAZIONI SCHERMO
 	final int screenWidth = 1280;
 	final int screenHeight = 720;
@@ -129,7 +129,6 @@ public class GamePanel extends JPanel implements Runnable{
 		long lastTime = System.nanoTime();
 		long currentTime;
 		long timer = 0;
-		int drawCount = 0;
 		
 		while (gameThread != null) {
 			
@@ -144,12 +143,10 @@ public class GamePanel extends JPanel implements Runnable{
 				update();
 				repaint();
 				delta--;
-				drawCount++;
 			}
 			
 			if (timer >= 1000000000) {
 //				System.out.println("FPS: " + drawCount);
-				drawCount = 0;
 				timer = 0;
 			}
 			
@@ -183,7 +180,7 @@ public class GamePanel extends JPanel implements Runnable{
 	    // Aggiunge Pokémon da Stringa usando metodo sorpa
 	    for (String pokemonName : selected1) { player1.addPokemon(generatePokemon(pokemonName)); }  
 	    for (String pokemonName : selected2) { player2.addPokemon(generatePokemon(pokemonName)); }
-
+	    
 	    battle = new Battle(player1, player2);
 	}
 	
@@ -195,14 +192,13 @@ public class GamePanel extends JPanel implements Runnable{
 	private void handleAction(String actionCommand) {
 	    if (currentTurn == Turn.PLAYER1) {
 	        Pokemon activePokemon = player1.getActivePokemon();
-	        List<PokemonMove> moves = activePokemon.getMoves();
-	        PokemonMove moveName = null;
+	        Integer moveIndex = null;
 	        switch (actionCommand) {
 	            case "MOVE1":
-	                moveName = moves.get(0);
+	                moveIndex = 0;
 	                break;
 	            case "MOVE2":
-	            	moveName = moves.get(1);
+	            	moveIndex = 1;
 	                break;
 /*	            case "MOVE3":
 	            	moveName = moves.get(2);
@@ -210,21 +206,20 @@ public class GamePanel extends JPanel implements Runnable{
 	            case "MOVE4":
 	            	moveName = moves.get(3);
 	                break; 						*/
-	            default: break;
+	           default: break;
 	        }
 	        // Imposta la mossa attiva
-	        activePokemon.setActiveMove(moveName.getName());
+	        activePokemon.setActiveMove(moveIndex);
 	        endTurn(); // Passa al turno del player2
 	    } else if (currentTurn == Turn.PLAYER2) {
 	    	Pokemon activePokemon = player2.getActivePokemon();
-	        List<PokemonMove> moves = activePokemon.getMoves();
-	        PokemonMove moveName = null;
+	        Integer moveIndex = null;
 	        switch (actionCommand) {
 	            case "MOVE1":
-	                moveName = moves.get(0);
+	                moveIndex = 0;
 	                break;
 	            case "MOVE2":
-	            	moveName = moves.get(1);
+	            	moveIndex = 1;
 	                break;
 /*	            case "MOVE3":
 	            	moveName = moves.get(2);
@@ -235,7 +230,7 @@ public class GamePanel extends JPanel implements Runnable{
 	           default: break;
 	        }
 	        // Imposta mossa player 2
-	        activePokemon.setActiveMove(moveName.getName());
+	        activePokemon.setActiveMove(moveIndex);
 	        initBattle(); // Esegui la battaglia solo dopo la scelta di entrambi
 	    }
 	}

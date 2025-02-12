@@ -10,8 +10,9 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+@SuppressWarnings("serial")
 public class ShowProfilePanel extends JPanel{
-	
+	@SuppressWarnings("unused")
 	private Window window;
 	
 	public ShowProfilePanel(Window window) {

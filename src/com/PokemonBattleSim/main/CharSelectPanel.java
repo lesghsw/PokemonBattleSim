@@ -6,9 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class CharSelectPanel extends JPanel {
-
-    private Window window;
+	@SuppressWarnings("unused")
+	private Window window;
     private JTextField fieldTrainer1, fieldTrainer2;
     private ToggleButtonGrid gridPanel1, gridPanel2;
 

@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ToggleButtonGrid extends JPanel {
-
-    private String[] pokemonNames = {"Bulbasaur","Charmander", "Squirtle", "Robert", "Urlox", "Cordol", "Sproloquio", "Domenico", "Bentley"}; 
+	private static final long serialVersionUID = 8563539763325249390L;
+	
+	private String[] pokemonNames = {"Bulbasaur","Charmander", "Squirtle", "Robert", "Urlox", "Cordol", "Sproloquio", "Domenico", "Bentley"}; 
     private JToggleButton[] buttons; 
     private int maxOnButtons = 3;
     private int currentOnButtons = 0;

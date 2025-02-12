@@ -8,11 +8,16 @@ public class Trainer {
 	private List<Pokemon> pokemons = new ArrayList<Pokemon>();
 	private Pokemon activePokemon;
 	private int deadPokemonCount;
-	
-	public Trainer() {}
+	private PlayerProfile trainerProfile;
 	
 	public Trainer(String name) {
 		this.name = name;
+		
+		if (SaveManager.profileExists(name)) {
+			this.trainerProfile = SaveManager.loadPlayerProfile(name);
+		} else {
+			this.trainerProfile = new PlayerProfile();
+		}
 	}
 	
 	public Trainer(String name, Pokemon pok1, Pokemon pok2, Pokemon pok3) {
@@ -39,6 +44,10 @@ public class Trainer {
 		return this.deadPokemonCount;
 	}
 	
+	public PlayerProfile getTrainerProfile() {
+		return this.trainerProfile;
+	}
+	
 	public void setActivePokemon(Pokemon activePokemon) {
 		this.activePokemon = activePokemon;
 	}
@@ -63,5 +72,17 @@ public class Trainer {
 				}
 			}
 		} else { this.activePokemon = null; }
+	}
+	
+	public void trainerWon() {
+		this.trainerProfile.playerWon();
+	}
+	
+	public void trainerLost() {
+		this.trainerProfile.playerLost();
+	}
+	
+	public void saveTrainerProfile() {
+		SaveManager.savePlayerProfile(this.trainerProfile, this.name);
 	}
 }

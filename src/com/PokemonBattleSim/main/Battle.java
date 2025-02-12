@@ -1,5 +1,4 @@
 package com.PokemonBattleSim.main;
-import java.util.List;
 
 public class Battle {
 	private Trainer player1, player2;

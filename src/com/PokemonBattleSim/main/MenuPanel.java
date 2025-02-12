@@ -6,9 +6,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+@SuppressWarnings("serial")
 public class MenuPanel extends JPanel {
-
-    private Window window;
+	@SuppressWarnings("unused")
+	private Window window;
 
     public MenuPanel(Window window) {
         this.window = window;

@@ -1,12 +1,15 @@
 package com.PokemonBattleSim.main;
+
 import java.io.Serializable;
 
 public class PlayerProfile implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	int gWon, gLost, gPlayed;
 	
 	// Costruttore senza arogmenti implicito,
 	// poiché le variabili avranno il valore default di 0
-	
+
 	void playerWon() {
 		this.gWon += 1;
 		this.gPlayed += 1;

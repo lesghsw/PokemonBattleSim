@@ -1,7 +1,6 @@
 package com.PokemonBattleSim.main;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -10,7 +9,7 @@ public class Pokemon {
 	private float hp;
 	private final float maxHp;
 	private List<PokemonType> types = new ArrayList<PokemonType>();
-	private LinkedHashMap<String, PokemonMove> moves = new LinkedHashMap<String, PokemonMove>();
+	private List<PokemonMove> moves = new ArrayList<PokemonMove>();
 	private PokemonMove activeMove;
 	private int lvl;
 	private int atk;
@@ -26,8 +25,8 @@ public class Pokemon {
 		this.hp = hp;
 		this.maxHp = hp;
 		this.types.add(type);
-		this.moves.put(move1.getName(), move1);
-		this.moves.put(move2.getName(), move2);
+		this.moves.add(move1);
+		this.moves.add(move2);
 		this.activeMove = move1;
 		this.lvl = lvl;
 		this.atk = atk;
@@ -45,8 +44,8 @@ public class Pokemon {
 		this.maxHp = hp;
 		this.types.add(type1);
 		this.types.add(type2);
-		this.moves.put(move1.getName(), move1);
-		this.moves.put(move2.getName(), move2);
+		this.moves.add(move1);
+		this.moves.add(move2);
 		this.activeMove = move1;
 		this.lvl = lvl;
 		this.atk = atk;
@@ -82,16 +81,12 @@ public class Pokemon {
 		return this.activeMove;
 	}
 	
-	public PokemonMove getMove(String name) {
-		return this.moves.get(name);
+	public PokemonMove getMove(int idx) {
+		return this.moves.get(idx);
 	}
 	
 	public List<PokemonMove> getMoves() {
-		List<PokemonMove> movesList = new ArrayList<PokemonMove>();
-		for(PokemonMove value : this.moves.values()) {
-			movesList.add(value);
-		}
-		return movesList;
+		return new ArrayList<>(this.moves);
 	}
 	
 	public List<PokemonType> getTypes() {
@@ -110,21 +105,17 @@ public class Pokemon {
 		return this.imgSrcBack;
 	}
 	
-	public void setActiveMove(String moveName) {
-		if(moveName != null) {
-			this.activeMove = this.moves.getOrDefault(moveName, this.activeMove);
+	public void setActiveMove(Integer idx) {
+		if (idx != null) {
+			if (idx < this.moves.size()) this.activeMove = this.moves.get(idx);
 		} else {
 			this.activeMove = null;
 		}
 	}
 	
-	public void setActiveMove(int idx) {
-		this.activeMove = getMoves().get(idx);
-	}
-	
 	public void addMove(PokemonMove move) {
 		if (this.moves.size() < 4) {
-			this.moves.put(move.getName(), move);
+			this.moves.add(move);
 		}
 	}
 	
