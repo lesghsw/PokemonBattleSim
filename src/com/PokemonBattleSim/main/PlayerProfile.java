@@ -10,25 +10,25 @@ public class PlayerProfile implements Serializable {
 	// Costruttore senza arogmenti implicito,
 	// poiché le variabili avranno il valore default di 0
 
-	void playerWon() {
+	public void playerWon() {
 		this.gWon += 1;
 		this.gPlayed += 1;
 	}
 	
-	void playerLost() {
+	public void playerLost() {
 		this.gLost += 1;
 		this.gPlayed += 1;
 	}
 	
-	int getWonCount() {
+	public int getWonCount() {
 		return this.gWon;
 	}
 	
-	int getLostCount() {
+	public int getLostCount() {
 		return this.gLost;
 	}
 	
-	int getPlayedCount() {
+	public int getPlayedCount() {
 		return this.gPlayed;
 	}
 }

@@ -17,11 +17,11 @@ public class Pulzante {
         customButton.setFocusPainted(false); // Rimuove il bordo di focus
         customButton.setMargin(null); // Rimuove il margine
         
-     // Imposta la posizione del testo
+        // Imposta la posizione del testo
         customButton.setHorizontalTextPosition(SwingConstants.CENTER); // Testo centrato orizzontalmente
         customButton.setVerticalTextPosition(SwingConstants.CENTER);   // Testo centrato verticalmente
 
-     // Imposta il font del testo
+        // Imposta il font del testo
         customButton.setFont(new Font("Arial", Font.BOLD, 16)); // Cambia il font
         customButton.setForeground(textColor); // Cambia il colore del testo
         

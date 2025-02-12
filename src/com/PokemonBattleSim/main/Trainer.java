@@ -71,7 +71,7 @@ public class Trainer {
 					this.setActivePokemon(pokemon);
 				}
 			}
-		} else { this.activePokemon = null; }
+		}
 	}
 	
 	public void trainerWon() {

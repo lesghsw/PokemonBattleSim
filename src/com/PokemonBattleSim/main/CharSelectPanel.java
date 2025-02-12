@@ -123,4 +123,12 @@ public class CharSelectPanel extends JPanel {
             }
         });
     }
+    
+    // Resetta nomi trainers e griglia dopo una partita
+    public void resetSelection() {
+        fieldTrainer1.setText("");
+        fieldTrainer2.setText("");
+        gridPanel1.resetSelection();
+        gridPanel2.resetSelection();
+    }
 }

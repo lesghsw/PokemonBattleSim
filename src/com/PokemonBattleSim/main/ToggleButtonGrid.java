@@ -46,4 +46,13 @@ public class ToggleButtonGrid extends JPanel {
     public List<String> getSelectedPokemon() {
         return new ArrayList<>(selectedPokemon);
     }
+    
+    // Per resettare i pulsanti dopo una partita
+    public void resetSelection() {
+        for (JToggleButton button : buttons) {
+            button.setSelected(false);
+        }
+        selectedPokemon.clear();
+        currentOnButtons = 0;
+    }
 }

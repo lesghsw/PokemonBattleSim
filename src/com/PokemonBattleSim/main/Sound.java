@@ -38,13 +38,23 @@ public class Sound {
 		
 		clip.start();
 	}
+	
 	public void loop() {
 		
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
-	public void stop() {
 	
+	// Stoppa temporaneamente la musica
+	public void pause() {
 		clip.stop();
+	}
+	
+	// Stoppa del tutto la musica e la "elimina" dalla queue
+	public void stop() {
+	    if (clip != null) {
+	        clip.stop();
+	        clip.close();
+	    }
 	}
 	
 	public boolean isPlaying() {

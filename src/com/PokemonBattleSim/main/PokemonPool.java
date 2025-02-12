@@ -6,7 +6,7 @@ public class PokemonPool {
 	}
 	
 	public static Pokemon genBulbasaur() {
-		return new Pokemon("Bulbasaur", 45, PokemonType.GRASS, PokemonMovePool.genGrowl(), PokemonMovePool.genTackle(), 5, 49, 49, 65, 65, 45);
+		return new Pokemon("Bulbasaur", 45, PokemonType.GRASS, PokemonMovePool.genGrowl(), PokemonMovePool.genTackle(), 5, 499, 49, 65, 65, 45);
 	}
 	
 	public static Pokemon genSquirtle() {
