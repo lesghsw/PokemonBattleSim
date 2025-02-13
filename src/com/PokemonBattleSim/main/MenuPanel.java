@@ -57,6 +57,7 @@ public class MenuPanel extends JPanel {
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	window.getProfilePanel().refreshPanel(); // Ricarica pulsanti profili
                 window.showPanel("LoadSave");
             }
         });

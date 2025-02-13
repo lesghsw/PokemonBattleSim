@@ -5,8 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+@SuppressWarnings("serial")
 public class WinPanel extends JPanel {
-    private Window window;
+    @SuppressWarnings("unused")
+	private Window window;
     private JLabel winnerLabel;
 
     public WinPanel(Window window) {

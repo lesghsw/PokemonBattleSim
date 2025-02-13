@@ -13,6 +13,7 @@ public class Window {
     
     private GamePanel gamePanel;
     private CharSelectPanel charSelectPanel;
+    private ShowProfilePanel loadSavePanel;
     
     public Window() {
         window = new JFrame("Pokémon LES & KRB");
@@ -25,7 +26,7 @@ public class Window {
         gamePanel = new GamePanel(this);
         charSelectPanel = new CharSelectPanel(this);
         winPanel = new WinPanel(this);
-        ShowProfilePanel loadSavePanel = new ShowProfilePanel(this);
+        loadSavePanel = new ShowProfilePanel(this);
         MenuPanel menuPanel = new MenuPanel(this);
         
         mainPanel.add(menuPanel, "Menu");
@@ -55,5 +56,9 @@ public class Window {
     
     public WinPanel getWinPanel() {
         return winPanel;
+    }
+    
+    public ShowProfilePanel getProfilePanel() {
+        return loadSavePanel;
     }
 }
