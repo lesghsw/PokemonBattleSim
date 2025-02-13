@@ -33,11 +33,6 @@ public class MenuPanel extends JPanel {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.setBackground(Color.WHITE);
 
-        // Dimensioni Pulsanti
-        startButton.setMaximumSize(new Dimension(300, 40));
-        loadButton.setMaximumSize(new Dimension(300, 40));
-        exitButton.setMaximumSize(new Dimension(300, 40));
-
         // Centra i pulsanti
         startButton.setAlignmentX(CENTER_ALIGNMENT);
         loadButton.setAlignmentX(CENTER_ALIGNMENT);

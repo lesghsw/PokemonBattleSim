@@ -21,19 +21,25 @@ public class CharSelectPanel extends JPanel {
 
         // Etichette e campi per i nomi
         JLabel nomeTrainer1 = new JLabel("Nome Allenatore 1:");
-        nomeTrainer1.setFont(new Font("Arial", Font.BOLD, 18));
+        nomeTrainer1.setFont(new Font("Arial", Font.BOLD, 32));
+        nomeTrainer1.setAlignmentX(Component.CENTER_ALIGNMENT);
         fieldTrainer1 = new JTextField(15);
+        fieldTrainer1.setFont(new Font("Arial", Font.PLAIN, 20));
 
         JLabel nomeTrainer2 = new JLabel("Nome Allenatore 2:");
-        nomeTrainer2.setFont(new Font("Arial", Font.BOLD, 18));
+        nomeTrainer2.setFont(new Font("Arial", Font.BOLD, 32));
+        nomeTrainer2.setAlignmentX(Component.CENTER_ALIGNMENT);
         fieldTrainer2 = new JTextField(15);
+        fieldTrainer2.setFont(new Font("Arial", Font.PLAIN, 20));
 
         // Etichette Pokédex
         JLabel pkdx1 = new JLabel("Squadra Allenatore 1:");
-        pkdx1.setFont(new Font("Arial", Font.BOLD, 18));
+        pkdx1.setFont(new Font("Arial", Font.BOLD, 36));
+        pkdx1.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel pkdx2 = new JLabel("Pokédex Allenatore 2:");
-        pkdx2.setFont(new Font("Arial", Font.BOLD, 18));
+        JLabel pkdx2 = new JLabel("Squadra Allenatore 2:");
+        pkdx2.setFont(new Font("Arial", Font.BOLD, 36));
+        pkdx2.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Griglie per la selezione Pokémon
         gridPanel1 = new ToggleButtonGrid();
@@ -42,9 +48,6 @@ public class CharSelectPanel extends JPanel {
         // Pulsanti di navigazione
         JButton battleButton = Pulzante.creaPulzante("Inizia!", "ref/Button.png", Color.WHITE);
         JButton backButton = Pulzante.creaPulzante("Indietro", "ref/Button.png", Color.WHITE);
-
-        battleButton.setPreferredSize(new Dimension(150, 40));
-        backButton.setPreferredSize(new Dimension(150, 40));
 
         // Pannello per il layout a due colonne
         JPanel trainerPanel = new JPanel(new GridLayout(1, 3));
@@ -55,20 +58,24 @@ public class CharSelectPanel extends JPanel {
         trainer1Panel.setLayout(new BoxLayout(trainer1Panel, BoxLayout.Y_AXIS));
         trainer1Panel.setBackground(Color.WHITE);
         trainer1Panel.add(nomeTrainer1);
-        trainer1Panel.add(fieldTrainer1);
         trainer1Panel.add(Box.createVerticalStrut(10));
+        trainer1Panel.add(fieldTrainer1);
+        trainer1Panel.add(Box.createVerticalStrut(620));
         trainer1Panel.add(pkdx1);
         trainer1Panel.add(gridPanel1);
+        trainer1Panel.add(Box.createVerticalStrut(10));
 
         // Pannello del secondo allenatore
         JPanel trainer2Panel = new JPanel();
         trainer2Panel.setLayout(new BoxLayout(trainer2Panel, BoxLayout.Y_AXIS));
         trainer2Panel.setBackground(Color.WHITE);
         trainer2Panel.add(nomeTrainer2);
-        trainer2Panel.add(fieldTrainer2);
         trainer2Panel.add(Box.createVerticalStrut(10));
+        trainer2Panel.add(fieldTrainer2);
+        trainer2Panel.add(Box.createVerticalStrut(620));
         trainer2Panel.add(pkdx2);
         trainer2Panel.add(gridPanel2);
+        trainer2Panel.add(Box.createVerticalStrut(10));
 
         // Aggiunta dei pannelli alla griglia principale
         trainerPanel.add(trainer1Panel);
@@ -104,11 +111,6 @@ public class CharSelectPanel extends JPanel {
                         JOptionPane.WARNING_MESSAGE);
                     return;
                 }
-
-                // Stampa per debug
-                System.out.println("Allenatore 1: " + trainer1Name + " ha scelto: " + selected1);
-                System.out.println("Allenatore 2: " + trainer2Name + " ha scelto: " + selected2);
-                
                 window.getGamePanel().setupTrainers(trainer1Name, selected1, trainer2Name, selected2);
                 window.showPanel("Game");
                 window.getGamePanel().startGameThread(); // Avvia il thread della battaglia

@@ -16,11 +16,15 @@ public class ToggleButtonGrid extends JPanel {
 
     public ToggleButtonGrid() {
         setLayout(new GridLayout(3, 3, 5, 5));
+        setBackground(Color.WHITE);
         buttons = new JToggleButton[pokemonNames.length];
         selectedPokemon = new ArrayList<>();
 
         for (int i = 0; i < pokemonNames.length; i++) {
-            JToggleButton toggleButton = new JToggleButton(pokemonNames[i]); 
+            // Percorsi delle immagini
+            String normalIcon = "ref/Button.png";
+            String selectedIcon = "ref/SelectedButton.png";
+            JToggleButton toggleButton = Pulzante.creaTogglePulzante(pokemonNames[i], normalIcon, selectedIcon, Color.WHITE);
             buttons[i] = toggleButton;
 
             toggleButton.addActionListener(e -> handleButtonClick(toggleButton));

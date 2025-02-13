@@ -4,15 +4,20 @@ import java.awt.BorderLayout;
 import java.awt.Color; // per colori
 import java.awt.Dimension; // per dimensione finestra
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.Random;
-//import java.awt.Graphics2D;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 @SuppressWarnings("serial")
@@ -28,6 +33,9 @@ public class GamePanel extends JPanel implements Runnable{
 	private Thread gameThread;
 	private Sound sound;
 	private Window window;
+	private JLabel turnoLabel;
+	private String battleMessage = "";
+	private boolean messageVisible = false;
 	
 	// BATTAGLIA
 	private Trainer player1;
@@ -35,80 +43,81 @@ public class GamePanel extends JPanel implements Runnable{
 	private Battle battle;
 	private JButton atButton1;
 	private JButton atButton2;
-/*	private JButton atButton3;
-	private JButton atButton4;	*/
 	private JButton swButton;
 	private JButton pk1Button;
 	private JButton pk2Button;
 	private JButton pk3Button;
-	private JButton muteButton;
+	private JToggleButton muteButton;
 	private Turn currentTurn = Turn.PLAYER1;
 	
 	
 	public GamePanel(Window window) {
 		this.window = window;
+		this.setBackground(Color.WHITE);
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
 		this.setDoubleBuffered(true);
 		this.setFocusable(true);
 		this.setLayout(new BorderLayout());
 		
-		atButton1 = new JButton();
-	    atButton2 = new JButton();
-/*	    atButton3 = new JButton();
-	    atButton4 = new JButton();		*/
-	    swButton = new JButton("Switch");
-	    pk1Button = new JButton();
-	    pk2Button = new JButton();
-	    pk3Button = new JButton();
-	    muteButton = new JButton("M");
+		atButton1 = Pulzante.creaPulzante("", "ref/Button.png", Color.WHITE);
+		atButton2 = Pulzante.creaPulzante("", "ref/Button.png", Color.WHITE);
+		swButton = Pulzante.creaPulzante("Switch", "ref/Button.png", Color.WHITE);
+		pk1Button = Pulzante.creaPulzante("", "ref/Button.png", Color.WHITE);
+		pk2Button = Pulzante.creaPulzante("", "ref/Button.png", Color.WHITE);
+		pk3Button = Pulzante.creaPulzante("", "ref/Button.png", Color.WHITE);
+		String Mon = "ref/MButton.png";
+        String Moff= "ref/SelectedMButton.png";
+        muteButton = Pulzante.creaTogglePulzante("", Mon, Moff, Color.WHITE);
 
 	    atButton1.setActionCommand("0");
 	    atButton2.setActionCommand("1");
-/*	    atButton3.setActionCommand("2");
-	    atButton4.setActionCommand("3");	*/
 	    pk1Button.setActionCommand("0");
 	    pk2Button.setActionCommand("1");
 	    pk3Button.setActionCommand("2");
 
 	    atButton1.addActionListener(e -> handleAction(e.getActionCommand()));
 	    atButton2.addActionListener(e -> handleAction(e.getActionCommand()));
-/*	    atButton3.addActionListener(e -> handleAction(e.getActionCommand()));
-	    atButton4.addActionListener(e -> handleAction(e.getActionCommand()));	*/
 	    swButton.addActionListener(e -> switchButtons());
 	    pk1Button.addActionListener(e -> handleSwitch(e.getActionCommand()));
 	    pk2Button.addActionListener(e -> handleSwitch(e.getActionCommand()));
 	    pk3Button.addActionListener(e -> handleSwitch(e.getActionCommand()));;
 	    muteButton.addActionListener(e -> handleSound());
 	    
-	    // Pannello tasto muta
-	    JPanel topLeftPanel = new JPanel();
-	    topLeftPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-	    topLeftPanel.add(muteButton);
-	    this.add(topLeftPanel, BorderLayout.NORTH);
+	    turnoLabel = new JLabel("Turno di: ");
+	    turnoLabel.setFont(new Font("Arial", Font.BOLD, 32));
+	    
+	    JPanel topPanel = new JPanel(new BorderLayout());
+	    topPanel.setPreferredSize(new Dimension(screenWidth, 50));
+	    topPanel.setBackground(Color.WHITE);
 
+	    JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	    topLeftPanel.add(muteButton);
+	    topLeftPanel.setBackground(Color.WHITE);
+
+	    JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+	    topRightPanel.add(turnoLabel);
+	    topRightPanel.setBackground(Color.WHITE);
+
+	    topPanel.add(topLeftPanel, BorderLayout.WEST);
+	    topPanel.add(topRightPanel, BorderLayout.EAST);
+
+	    this.add(topPanel, BorderLayout.NORTH);
+	    
 	    // Pannello tasti battaglia + cambio pkmn
 	    JPanel buttonPanel = new JPanel();
 	    buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
 	    buttonPanel.add(atButton1);
 	    buttonPanel.add(atButton2);
 	    buttonPanel.add(swButton);
 	    buttonPanel.add(pk1Button);
 		buttonPanel.add(pk2Button);
 		buttonPanel.add(pk3Button);
-
+		buttonPanel.setBackground(Color.WHITE);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	    
 	    pk1Button.setVisible(false);
 	    pk2Button.setVisible(false);
 	    pk3Button.setVisible(false);
-		
-/*		atButton1.setFocusable(false);
-		atButton2.setFocusable(false);
-		atButton3.setFocusable(false);
-		atButton4.setFocusable(false);
-		swButton.setFocusable(false);
-		muteButton.setFocusable(false); **/
 		
 		sound = new Sound();
 	}
@@ -120,6 +129,7 @@ public class GamePanel extends JPanel implements Runnable{
 		int randomMusic = rand.nextInt(5);
 		playMusic(randomMusic);
 		updateMoveButtons();
+		updateTurnLabel();
 	}
 
 	@Override
@@ -139,23 +149,17 @@ public class GamePanel extends JPanel implements Runnable{
 			lastTime = currentTime;
 			
 			if (delta >= 1) {
-							
-//				update();
 				repaint();
 				delta--;
 			}
 			
 			if (timer >= 1000000000) {
-//				System.out.println("FPS: " + drawCount);
 				timer = 0;
 			}
 			
 			
 		}
 	}
-	
-/*	public void update() {
-		}	*/
 	
 	private Pokemon generatePokemon(String name) {
 	    switch (name) {
@@ -191,8 +195,8 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	private void handleAction(String actionCommand) {
-	    Trainer currentPlayer = (currentTurn == Turn.PLAYER1) ? player1 : player2;
-	    Pokemon activePokemon = currentPlayer.getActivePokemon();
+	    Trainer currentTrainer= (currentTurn == Turn.PLAYER1) ? player1 : player2;
+	    Pokemon activePokemon = currentTrainer.getActivePokemon();
 	    
 	    activePokemon.setActiveMove(Integer.parseInt(actionCommand));
 	                
@@ -210,13 +214,13 @@ public class GamePanel extends JPanel implements Runnable{
 	    
 	    // Controllo se pkmn è già attivo
 	    if (selectedPokemon == currentTrainer.getActivePokemon()) {
-	        System.out.println("Non puoi selezionare di nuovo il Pokémon attivo.");
+	    	showBattleMessage("Non puoi selezionare di nuovo il Pokémon attivo.");
 	        return;
 	    }
 	    
 	    // Controllo se pkmn è morto
 	    if (selectedPokemon.getHp() <= 0) {
-	        System.out.println("Non puoi selezionare un Pokémon esausto!");
+	    	showBattleMessage("Non puoi selezionare un Pokémon esausto!");
 	        return;
 	    }
 	    
@@ -239,10 +243,16 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	private void switchButtons() {	
+		
+		// Controllo se sono rimasti p
+		Trainer currentTrainer = (currentTurn == Turn.PLAYER1) ? player1 : player2;
+
+		if (currentTrainer.getDeadPokemonCount() == 2) {
+		    showBattleMessage("Non puoi cambiare Pokémon, ne hai solo uno vivo!");
+		    return;}
+		
 		atButton1.setVisible(false);
 	    atButton2.setVisible(false);
-/*	    atButton3.setVisible(false);
-	    atButton4.setVisible(false);	*/
 	    swButton.setVisible(false);
 	    
 	    pk1Button.setVisible(true);
@@ -267,13 +277,35 @@ public class GamePanel extends JPanel implements Runnable{
 
 	    if (moves.size() > 0) atButton1.setText(moves.get(0).getName());
 	    if (moves.size() > 1) atButton2.setText(moves.get(1).getName());
-	    // In caso
-	    // if (moves.size() > 2) atButton3.setText(moves.get(2).getName());
-	    // if (moves.size() > 3) atButton4.setText(moves.get(3).getName());
 	}
 	
 	private void initBattle() {
-	    int battleRet = battle.runBattle();
+		// Recupera le mosse usate in base alle scelte
+		if (player1.getActivePokemon().getActiveMove() != null && player2.getActivePokemon().getActiveMove() != null) {
+	    String move1 = player1.getActivePokemon().getActiveMove().getName();
+	    String move2 = player2.getActivePokemon().getActiveMove().getName();
+	    String pkmn1 = player1.getActivePokemon().getName();
+	    String pkmn2 = player2.getActivePokemon().getName();
+	    
+	    String finalMessage = pkmn1 + " ha usato " + move1 + "!\n" + pkmn2 + " ha usato " + move2 + "!\n";
+	    
+	    showBattleMessage(finalMessage);} else if (player1.getActivePokemon().getActiveMove() != null && player2.getActivePokemon().getActiveMove() == null) {
+		    String move1 = player1.getActivePokemon().getActiveMove().getName();
+		    String pkmn1 = player1.getActivePokemon().getName();
+		    
+		    String finalMessage = pkmn1 + " ha usato " + move1 + "!\n";
+		    
+		    showBattleMessage(finalMessage);} else if (player1.getActivePokemon().getActiveMove() == null && player2.getActivePokemon().getActiveMove() != null) {
+		    String move2 = player2.getActivePokemon().getActiveMove().getName();
+		    String pkmn2 = player2.getActivePokemon().getName();
+		    
+		    String finalMessage = pkmn2 + " ha usato " + move2 + "!\n";
+		    
+		    showBattleMessage(finalMessage);}
+	    
+		// Esegue battaglia
+		int battleRet = battle.runBattle();
+
 
 	    if (battleRet == 1 && player1.getDeadPokemonCount() == 3) {
 	        endGame(player2); // L'argomento di endGame() è il vincitore
@@ -284,12 +316,14 @@ public class GamePanel extends JPanel implements Runnable{
 	    }
 
 	    currentTurn = Turn.PLAYER1;
+	    updateTurnLabel();
 	    updateMoveButtons();
 	}
 
 	private void endTurn() {
 	    if (currentTurn == Turn.PLAYER1) {
 	        currentTurn = Turn.PLAYER2;
+	        updateTurnLabel();
 	        if (player2.getActivePokemon() != null) {
 	            updateMoveButtons();
 	        }
@@ -298,6 +332,7 @@ public class GamePanel extends JPanel implements Runnable{
 	            initBattle();
 	        }
 	    }
+	    updateTurnLabel();
 	}
 	
 	private void endGame(Trainer winner) {
@@ -311,11 +346,12 @@ public class GamePanel extends JPanel implements Runnable{
 	    player1.saveTrainerProfile();
 	    player2.saveTrainerProfile();
 	    
-	    gameThread = null;											// Ferma il thread
-	    sound.stop();												// Ferma del tutto la musica
-	    currentTurn = Turn.PLAYER1;									// Resetta turno per la prossima partita
-	    window.getWinPanel().setWinner(winner.getName()); 			// Serve per passare nome vincitore
-	    window.showPanel("Win");									// Vai a win
+	    gameThread = null;													// Ferma il thread
+	    sound.stop();														// Ferma del tutto la musica
+	    currentTurn = Turn.PLAYER1;											// Resetta turno per la prossima partita
+	    window.getWinPanel().setWinner(winner.getName()); 					// Serve per passare nome vincitore
+	    window.getWinPanel().setWinnerTeam(winner.getPokemonList()); 		// Ottieni squadra del vincitore
+	    window.showPanel("Win");											// Vai a win
 	}
 	
 	private void handleSound() {
@@ -327,20 +363,56 @@ public class GamePanel extends JPanel implements Runnable{
 	    }
 	}
 	
+	private void updateTurnLabel() {
+		Trainer currentTrainer= (currentTurn == Turn.PLAYER1) ? player1 : player2;
+	    String name = currentTrainer.getName();
+	    turnoLabel.setText("Turno di: " + name);
+	}
+	
+	private void showBattleMessage(String message) {
+	    battleMessage = message;
+	    messageVisible = true;
+	    
+	    // Nasconde il messaggio dopo 2 secondi
+	    new Timer().schedule(new TimerTask() {
+	    	@Override
+	    	public void run() {
+	    	messageVisible = false;}
+	    },2000);
+	}
+	
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		
-		Pokemon player1Pokemon = player1.getActivePokemon();
+	    super.paintComponent(g);
+	    Graphics2D g2d = (Graphics2D) g;
+
+	    Pokemon player1Pokemon = player1.getActivePokemon();
 	    Pokemon player2Pokemon = player2.getActivePokemon();
-		
+
 	    Image playerSprite = Toolkit.getDefaultToolkit().getImage(getClass().getResource(player1Pokemon.getSpriteBack()));
 	    Image opponentSprite = Toolkit.getDefaultToolkit().getImage(getClass().getResource(player2Pokemon.getSpriteFront()));
-	    
-	    g.drawImage(playerSprite, 100, 400, this);
-	    g.drawImage(opponentSprite, 1117, 100, this);
-	    
-	    drawHealthBar(g, player1Pokemon, 100, 370);
-	    drawHealthBar(g, player2Pokemon, 980, 70);
+
+	    int newSize = 256; // Dimensione sprite
+
+	    // Disegna gli sprite
+	    g2d.drawImage(playerSprite, 10, 420, newSize, newSize, this);
+	    g2d.drawImage(opponentSprite, 920, 110, newSize, newSize, this);
+
+	    // Disegna le barre della vita
+	    drawHealthBar(g2d, player1Pokemon, 50, 370);
+	    drawHealthBar(g2d, player2Pokemon, 950, 70);
+
+	    if (messageVisible) {
+	        g2d.setColor(new Color(0, 0, 0, 150));  // Sfondo semitrasparente
+	        g2d.fillRoundRect(400, 500, 480, 100, 15, 15);  // Rettangolo arrotondato
+
+	        g2d.setColor(Color.WHITE);
+	        g2d.setFont(new Font("Arial", Font.BOLD, 20));
+	        
+	        String[] lines = battleMessage.split("\n"); // Dividi il messaggio in righe
+	        for (int i = 0; i < lines.length; i++) {
+	            g2d.drawString(lines[i], 420, 530 + (i * 25));  // Disegna ogni riga
+	        }
+	    }
 	}
 
 	private void drawHealthBar(Graphics g, Pokemon pokemon, int x, int y) {
