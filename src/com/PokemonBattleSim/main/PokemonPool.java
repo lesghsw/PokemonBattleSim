@@ -36,4 +36,19 @@ public class PokemonPool {
 	public static Pokemon genBentley() {
 		return new Pokemon("Bentley", 41, PokemonType.FIRE, PokemonMovePool.genTailWhip(), PokemonMovePool.genFlamethrower(), 5, 45, 69, 55, 67, 46);
 	}
+	
+	public static Pokemon generatePokemon(String name) {
+        switch (name) {
+	        case "Charmander": return genCharmander();
+	        case "Bulbasaur": return genBulbasaur();
+	        case "Squirtle": return genSquirtle();
+	        case "Robert": return genRobert();
+	        case "Urlox": return genUrlox();
+	        case "Cordol": return genCordol();
+	        case "Sproloquio": return genSproloquio();
+	        case "Domenico": return genDomenico();
+	        case "Bentley": return genBentley();
+	        default: return null;
+        }
+	}
 }

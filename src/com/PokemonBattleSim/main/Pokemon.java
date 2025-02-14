@@ -38,25 +38,6 @@ public class Pokemon {
 		this.imgSrcBack = "ref/" + name.toLowerCase() + "/back.png";
 	}
 	
-	public Pokemon(String name, int hp, PokemonType type1, PokemonType type2, PokemonMove move1, PokemonMove move2, int lvl, int atk, int def, int spAtk, int spDef, int spd) {
-		this.name = name;
-		this.hp = hp;
-		this.maxHp = hp;
-		this.types.add(type1);
-		this.types.add(type2);
-		this.moves.add(move1);
-		this.moves.add(move2);
-		this.activeMove = move1;
-		this.lvl = lvl;
-		this.atk = atk;
-		this.spAtk = spAtk;
-		this.def = def;
-		this.spDef = spDef;
-		this.spd = spd;
-		this.imgSrcFront = "ref/" + name.toLowerCase() + "/front.png";
-		this.imgSrcBack = "ref/" + name.toLowerCase() + "/back.png";
-	}
-	
 	public float getHp() {
 		return this.hp;
 	}
@@ -180,6 +161,5 @@ public class Pokemon {
 		}
 		move.updateDurability(-1);
 	}
-	
 	
 }

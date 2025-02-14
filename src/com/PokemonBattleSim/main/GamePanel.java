@@ -23,11 +23,11 @@ import java.util.TimerTask;
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable{
 	// IMPOSTAZIONI SCHERMO
-	final int screenWidth = 1280;
-	final int screenHeight = 720;
+	private final int screenWidth = 1280;
+	private final int screenHeight = 720;
 	
 	// FPS
-	int FPS = 60;
+	private int FPS = 60;
 	
 	// VARIE
 	private Thread gameThread;
@@ -161,29 +161,14 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 	}
 	
-	private Pokemon generatePokemon(String name) {
-	    switch (name) {
-	        case "Charmander": return PokemonPool.genCharmander();
-	        case "Bulbasaur": return PokemonPool.genBulbasaur();
-	        case "Squirtle": return PokemonPool.genSquirtle();
-	        case "Robert": return PokemonPool.genRobert();
-	        case "Urlox": return PokemonPool.genUrlox();
-	        case "Cordol": return PokemonPool.genCordol();
-	        case "Sproloquio": return PokemonPool.genSproloquio();
-	        case "Domenico": return PokemonPool.genDomenico();
-	        case "Bentley": return PokemonPool.genBentley();
-	        default: return null;
-	    }
-	}
-	
 	public void setupTrainers(String trainer1Name, List<String> selected1, String trainer2Name, List<String> selected2) {
 	    // Crea Trainers con Nome
 	    player1 = new Trainer(trainer1Name);
 	    player2 = new Trainer(trainer2Name);
 
 	    // Aggiunge Pokémon da Stringa usando metodo sorpa
-	    for (String pokemonName : selected1) { player1.addPokemon(generatePokemon(pokemonName)); }  
-	    for (String pokemonName : selected2) { player2.addPokemon(generatePokemon(pokemonName)); }
+	    for (String pokemonName : selected1) { player1.addPokemon(PokemonPool.generatePokemon(pokemonName)); }  
+	    for (String pokemonName : selected2) { player2.addPokemon(PokemonPool.generatePokemon(pokemonName)); }
 	    
 	    battle = new Battle(player1, player2);
 	    currentTurn = Turn.PLAYER1;		// Setta il turno al player 1 per sicurezza
