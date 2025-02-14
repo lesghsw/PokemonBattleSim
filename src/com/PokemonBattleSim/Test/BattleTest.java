@@ -33,9 +33,12 @@ class BattleTest {
 		
 		// Check if detects PokemonDeath
 		trainer2.setActivePokemon(1);
-		trainer2.getActivePokemon().damage(43); // Damage Pokemon to ensure death occurs for triner2
-		int res = battle.runBattle();
-		assertEquals(res, 2);
+		int res;
+		do {
+			res = battle.runBattle();
+		}
+		while (res == 0);
+		assertEquals(2, res); // check if correct player wins for this test case
 		
 		// Check if first alive Pokemon is chosen as active Pokemon
 		assertEquals(trainer2.getActivePokemon().getName(), "Charmander");
