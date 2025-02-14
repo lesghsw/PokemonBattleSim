@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"PokemonBattleSim","l":"com.PokemonBattleSim.main"}];updateSearchResults();
