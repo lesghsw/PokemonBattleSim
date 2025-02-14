@@ -99,8 +99,13 @@ public class Pokemon {
 			this.moves.add(move);
 		}
 	}
+	public void addType(PokemonType type) {
+		if (this.types.size() < 2) {
+			this.types.add(type);
+		}
+	}
 	
-	public void damage(float dmg) {
+	private void damage(float dmg) {
 		this.hp -= dmg;
 	}
 	
@@ -108,7 +113,7 @@ public class Pokemon {
 		return this.types.contains(this.getActiveMove().getType()) ? 1.5f : 1.0f;
 	}
 	
-	private float calculateEffectiveness(List<PokemonType> targetTypes) {
+	public float calculateEffectiveness(List<PokemonType> targetTypes) {
 		PokemonType moveType = this.getActiveMove().getType();
 		
 		float eff = 1.0f;
