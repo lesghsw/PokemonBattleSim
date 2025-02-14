@@ -6,6 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * Pannello di selezione dei Pokémon per la partita.
+ * Permette di selezionare i Pokémon (esattamente 3) di entrambe le squadre e il nome del giocatore (che verrà usato per il salvataggio dei dati).
+ * 
+ * @author Giampietri2108347
+ */
 @SuppressWarnings("serial")
 public class CharSelectPanel extends JPanel {
     @SuppressWarnings("unused")
@@ -13,6 +19,12 @@ public class CharSelectPanel extends JPanel {
     private JTextField fieldTrainer1, fieldTrainer2;
     private ToggleButtonGrid gridPanel1, gridPanel2;
 
+    /**
+     * Costruttore del pannello di selezione dei Pokémon.
+     * Inizializza le etichette, le aree di testo per inserire il nome dell'utente e i pulsanti di selezione dela squadra.
+     * 
+     * @param window La finestra principale dell'applicazione, necessaria per navigare tra i vari pannelli.
+     */
     public CharSelectPanel(Window window) {
         this.window = window;
 
@@ -59,9 +71,6 @@ public class CharSelectPanel extends JPanel {
         // Pulsanti di navigazione
         JButton battleButton = Pulzante.creaPulzante("Inizia!", "ref/Button.png", Color.WHITE);
         JButton backButton = Pulzante.creaPulzante("Indietro", "ref/Button.png", Color.WHITE);
-
-        battleButton.setPreferredSize(new Dimension(150, 40));
-        backButton.setPreferredSize(new Dimension(150, 40));
 
         // Pannello per il layout a due colonne (diviso verticalmente)
         JPanel trainerPanel = new JPanel(new GridLayout(1, 2));
@@ -154,7 +163,9 @@ public class CharSelectPanel extends JPanel {
         });
     }
 
-    // Resetta nomi trainers e griglia dopo una partita
+   /**
+    * Resetta la il testo del JLabel e i pulsanti della griglia Pokémon dopo una partita.
+    */
     public void resetSelection() {
         fieldTrainer1.setText("");
         fieldTrainer2.setText("");
@@ -162,16 +173,30 @@ public class CharSelectPanel extends JPanel {
         gridPanel2.resetSelection();
     }
 
-    // Classe interna per disegnare i Pokémon selezionati
+    /**
+     * Classe interna per disegnare i Pokémon selezionati.
+     * 
+     * @author Aloisi2107981
+     */
     private class PokemonDisplayPanel extends JPanel {
         private ToggleButtonGrid grid;
 
+        /**
+         * Costruttore del pannello che mostra i Pokémon selezionati.
+         * 
+         * @param grid La griglia di selezione associata al pannello.
+         */
         public PokemonDisplayPanel(ToggleButtonGrid grid) {
             this.grid = grid;
             setPreferredSize(new Dimension(200, 100)); // Imposta un'altezza fissa
             setBackground(Color.WHITE);
         }
 
+        /**
+         * Disegna gli sprite dei Pokémon selezionati sul pannello.
+         * 
+         * @param g L'oggetto Graphics usato per il rendering.
+         */
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);

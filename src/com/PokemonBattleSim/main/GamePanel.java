@@ -19,7 +19,14 @@ import javax.swing.JToggleButton;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ * Pannello di gioco della partita.
+ * Questa classe rappresenta l'interfaccia grafica principale della battaglia,
+ * permettendo ai giocatori di scegliere mosse, cambiare Pokémon, visualizzare gli sprite e 
+ * le barre vita, interagire con l'audio e ricevere informazioni sull'efficacia delle mosse.
+ * 
+ * @author Giampietri2108347
+ */
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable{
 	// IMPOSTAZIONI SCHERMO
@@ -50,7 +57,12 @@ public class GamePanel extends JPanel implements Runnable{
 	private JToggleButton muteButton;
 	private Turn currentTurn = Turn.PLAYER1;
 	
-	
+	/**
+	 * Costruttore del pannello di gioco.
+	 * Inizializza i componenti grafici e i pulsanti di azione per la battaglia.
+	 * 
+	 * @param window La finestra principale dell'applicazione, necessaria per navigare tra i vari pannelli.
+	 */
 	public GamePanel(Window window) {
 		this.window = window;
 		this.setBackground(Color.WHITE);
@@ -122,6 +134,9 @@ public class GamePanel extends JPanel implements Runnable{
 		sound = new Sound();
 	}
 	
+	/**
+     * Avvia il thread di gioco e la musica. Aggiorna i pulsanti e l'etichetta del turno.
+     */
 	public void startGameThread() {
 		gameThread = new Thread(this);
 		gameThread.start();
@@ -132,6 +147,9 @@ public class GamePanel extends JPanel implements Runnable{
 		updateTurnLabel();
 	}
 
+	/**
+     * Metodo principale del thread di gioco. Gestisce il loop di aggiornamento e rendering.
+     */
 	@Override
 	public void run() {
 		double drawInterval = 1000000000 / FPS;
@@ -161,6 +179,14 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 	}
 	
+	/**
+     * Configura i due allenatori con i nomi e le squadre selezionate.
+     * 
+     * @param trainer1Name Nome del primo allenatore
+     * @param selected1 Lista dei Pokémon scelti dal primo allenatore
+     * @param trainer2Name Nome del secondo allenatore
+     * @param selected2 Lista dei Pokémon scelti dal secondo allenatore
+     */
 	public void setupTrainers(String trainer1Name, List<String> selected1, String trainer2Name, List<String> selected2) {
 	    // Crea Trainers con Nome
 	    player1 = new Trainer(trainer1Name);
@@ -179,6 +205,11 @@ public class GamePanel extends JPanel implements Runnable{
 	    PLAYER2
 	}
 	
+	/**
+     * Gestisce la mossa scelta dal giocatore durante il proprio turno.
+     * 
+     * @param actionCommand Indice della mossa selezionata
+     */
 	private void handleAction(String actionCommand) {
 	    Trainer currentTrainer= (currentTurn == Turn.PLAYER1) ? player1 : player2;
 	    Pokemon activePokemon = currentTrainer.getActivePokemon();
@@ -192,6 +223,11 @@ public class GamePanel extends JPanel implements Runnable{
 	    }
 	}
 	
+	  /**
+     * Permette al giocatore di cambiare il Pokémon attualmente in campo (attivo).
+     * 
+     * @param actionCommand Indice del Pokémon selezionato per il cambio
+     */
 	private void handleSwitch(String actionCommand) {
 	    Trainer currentTrainer = (currentTurn == Turn.PLAYER1) ? player1 : player2;
 	    
@@ -227,9 +263,12 @@ public class GamePanel extends JPanel implements Runnable{
 	    }
 	}
 	
+	 /**
+     * Aggiorna i pulsanti a schermo durante il cambio dei Pokémon.
+     */
 	private void switchButtons() {	
 		
-		// Controllo se sono rimasti p
+		// Controllo se sono rimasti pkmn
 		Trainer currentTrainer = (currentTurn == Turn.PLAYER1) ? player1 : player2;
 
 		if (currentTrainer.getDeadPokemonCount() == 2) {
@@ -247,6 +286,9 @@ public class GamePanel extends JPanel implements Runnable{
 	    updateSwitchButtons();
 	}
 	
+	/**
+     * Aggiorna i pulsanti di selezione dei Pokémon disponibili per il cambio.
+     */
 	private void updateSwitchButtons() {
 	    Trainer currentTrainer = (currentTurn == Turn.PLAYER1) ? player1 : player2; // Prende trainer attuale
 	    List<Pokemon> pokemonList = currentTrainer.getPokemonList();
@@ -256,6 +298,9 @@ public class GamePanel extends JPanel implements Runnable{
 	    if (pokemonList.size() > 2) pk3Button.setText(pokemonList.get(2).getName());
 	}
 	
+	/**
+     * Aggiorna i pulsanti delle mosse disponibili per il Pokémon attivo.
+     */
 	private void updateMoveButtons() {
 	    Pokemon activePokemon = (currentTurn == Turn.PLAYER1) ? player1.getActivePokemon() : player2.getActivePokemon();
 	    List<PokemonMove> moves = activePokemon.getMoves();
@@ -263,7 +308,10 @@ public class GamePanel extends JPanel implements Runnable{
 	    if (moves.size() > 0) atButton1.setText(moves.get(0).getName());
 	    if (moves.size() > 1) atButton2.setText(moves.get(1).getName());
 	}
-	
+
+    /**
+     * Esegue il turno di battaglia tramite le mosse scelte dai giocatori.
+     */
 	private void initBattle() {
 		// Recupera le mosse usate in base alle scelte
 		if (player1.getActivePokemon().getActiveMove() != null && player2.getActivePokemon().getActiveMove() != null) {
@@ -271,20 +319,28 @@ public class GamePanel extends JPanel implements Runnable{
 	    String move2 = player2.getActivePokemon().getActiveMove().getName();
 	    String pkmn1 = player1.getActivePokemon().getName();
 	    String pkmn2 = player2.getActivePokemon().getName();
+	    float eff1 = player1.getActivePokemon().calculateEffectiveness(player2.getActivePokemon().getTypes());
+	    float eff2 = player2.getActivePokemon().calculateEffectiveness(player1.getActivePokemon().getTypes());
+	    String m1 = messEff(eff1);
+	    String m2 = messEff(eff2);
 	    
-	    String finalMessage = pkmn1 + " ha usato " + move1 + "!\n" + pkmn2 + " ha usato " + move2 + "!\n";
+	    String finalMessage = pkmn1 + " ha usato " + move1 + "!\n" + m1 + "\n" + pkmn2 + " ha usato " + move2 + "!\n" + m2 + "\n";
 	    
 	    showBattleMessage(finalMessage);} else if (player1.getActivePokemon().getActiveMove() != null && player2.getActivePokemon().getActiveMove() == null) {
 		    String move1 = player1.getActivePokemon().getActiveMove().getName();
 		    String pkmn1 = player1.getActivePokemon().getName();
+		    float eff1 = player1.getActivePokemon().calculateEffectiveness(player2.getActivePokemon().getTypes());
+		    String m1 = messEff(eff1);
 		    
-		    String finalMessage = pkmn1 + " ha usato " + move1 + "!\n";
+		    String finalMessage = pkmn1 + " ha usato " + move1 + "!\n" + m1 + "\n";
 		    
 		    showBattleMessage(finalMessage);} else if (player1.getActivePokemon().getActiveMove() == null && player2.getActivePokemon().getActiveMove() != null) {
 		    String move2 = player2.getActivePokemon().getActiveMove().getName();
 		    String pkmn2 = player2.getActivePokemon().getName();
+		    float eff2 = player2.getActivePokemon().calculateEffectiveness(player1.getActivePokemon().getTypes());
+		    String m2 = messEff(eff2);
 		    
-		    String finalMessage = pkmn2 + " ha usato " + move2 + "!\n";
+		    String finalMessage = pkmn2 + " ha usato " + move2 + "!\n" + m2 + "\n";
 		    
 		    showBattleMessage(finalMessage);}
 	    
@@ -305,6 +361,9 @@ public class GamePanel extends JPanel implements Runnable{
 	    updateMoveButtons();
 	}
 
+	/**
+     * Termina il turno attuale e passa al giocatore successivo.
+     */
 	private void endTurn() {
 	    if (currentTurn == Turn.PLAYER1) {
 	        currentTurn = Turn.PLAYER2;
@@ -320,6 +379,11 @@ public class GamePanel extends JPanel implements Runnable{
 	    updateTurnLabel();
 	}
 	
+	/**
+     * Gestisce la fine della partita dichiarando il vincitore.
+     * 
+     * @param winner Stringa che rappresenta il nome del vincitore della battaglia
+     */
 	private void endGame(Trainer winner) {
 	    winner.trainerWon();
 	    if (winner == player1) {
@@ -339,6 +403,9 @@ public class GamePanel extends JPanel implements Runnable{
 	    window.showPanel("Win");											// Vai a win
 	}
 	
+	/**
+     * Attiva o disattiva la musica di sottofondo.
+     */
 	private void handleSound() {
 		if (sound.isPlaying()) {
 	        sound.pause();
@@ -348,12 +415,20 @@ public class GamePanel extends JPanel implements Runnable{
 	    }
 	}
 	
+	/**
+     * Aggiorna l'etichetta che indica di chi è il turno attuale.
+     */
 	private void updateTurnLabel() {
 		Trainer currentTrainer= (currentTurn == Turn.PLAYER1) ? player1 : player2;
 	    String name = currentTrainer.getName();
 	    turnoLabel.setText("Turno di: " + name);
 	}
 	
+	/**
+     * Mostra un messaggio a schermo con le informazioni della battaglia.
+     * 
+     * @param message Il messaggio da visualizzare
+     */
 	private void showBattleMessage(String message) {
 	    battleMessage = message;
 	    messageVisible = true;
@@ -366,6 +441,22 @@ public class GamePanel extends JPanel implements Runnable{
 	    },2000);
 	}
 	
+	/**
+     * Restituisce un messaggio basato sull'efficacia di una mossa.
+     * 
+     * @param eff Il valore in virgola mobile dell'efficacia della mossa rispetto al Pokémon avversario.
+     */
+	private String messEff(float eff) {
+		if (eff > 1.0f) return "It's super effective!";
+		else if (eff < 1.0f) return "It's not very effective...";
+		else return "";
+	}
+	
+	/**
+     * Disegna gli sprite dei Pokémon e gli elementi grafici della battaglia.
+     * 
+     * @param g L'oggetto Graphics utilizzato per il rendering
+     */
 	public void paintComponent(Graphics g) {
 	    super.paintComponent(g);
 	    Graphics2D g2d = (Graphics2D) g;
@@ -388,7 +479,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 	    if (messageVisible) {
 	        g2d.setColor(new Color(0, 0, 0, 150));  // Sfondo semitrasparente
-	        g2d.fillRoundRect(400, 500, 480, 100, 15, 15);  // Rettangolo arrotondato
+	        g2d.fillRoundRect(400, 500, 480, 120, 15, 15);  // Rettangolo arrotondato
 
 	        g2d.setColor(Color.WHITE);
 	        g2d.setFont(new Font("Arial", Font.BOLD, 20));
@@ -400,6 +491,16 @@ public class GamePanel extends JPanel implements Runnable{
 	    }
 	}
 
+	/**
+     * Disegna la barra della vita di un Pokémon.
+     * 
+     * @param g L'oggetto Graphics usato per disegnare
+     * @param pokemon Il Pokémon di cui disegnare la barra della vita
+     * @param x Coordinata X della barra
+     * @param y Coordinata Y della barra
+     * 
+     * @author Aloisi2107981
+     */
 	private void drawHealthBar(Graphics g, Pokemon pokemon, int x, int y) {
 	    // Lunghezza barra in base alla percentuale di HP rimasti
 	    int barWidth = 200;
@@ -417,6 +518,13 @@ public class GamePanel extends JPanel implements Runnable{
 	    g.drawRect(x, y, barWidth, 20); // Contorno della barra
 	}
 	
+	/**
+     * Riproduce un brano musicale in background.
+     * 
+     * @param i Indice del brano musicale da riprodurre
+     * 
+     * @author Giampietri2108347
+     */
 	public void playMusic(int i) {
 		sound.setFile(i);
 		sound.play();

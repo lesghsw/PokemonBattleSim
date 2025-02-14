@@ -155,9 +155,6 @@ public class Pokemon {
 			float atkODef = attack / (float)defence;
 			float eff = calculateEffectiveness(target.getTypes());
 			
-//			if (eff > 1.0f) System.out.println("It's super effective!");
-//			else if (eff < 1.0f) System.out.println("It's not very effective...");
-			
 			float stab = calculateStab();
 			float rndAcc = rand.nextFloat();
 			float rndMod = rand.nextFloat(0.15f) + 0.85f;

@@ -5,11 +5,25 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Pannello del menu del simulatore.
+ * Questa classe rappresenta il menu principale del simulatore,
+ * permettendo all'utente navigare nella sezione dei salvataggi,
+ * selezione dei Pokémon o chiudere il simulatore.
+ * 
+ * @author Giampietri2108347
+ */
 @SuppressWarnings("serial")
 public class MenuPanel extends JPanel {
 	@SuppressWarnings("unused")
 	private Window window;
 
+	/**
+	 * Costruttore del pannello del menu.
+     * Inizializza il logo e pulsanti di navigazione.
+     *
+     * @param window La finestra principale dell'applicazione, necessaria per navigare tra i vari pannelli.
+     */
     public MenuPanel(Window window) {
         this.window = window;
         

@@ -6,6 +6,13 @@ import java.awt.event.ActionEvent;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Pannello dei salvataggi.
+ * Questa classe rappresenta il pannello dei salvataggi,
+ * permettendo all'utente di visualizzare ed eliminare i vari profili salvati.
+ * 
+ * @author Giampietri2108347
+ */
 @SuppressWarnings("serial")
 public class ShowProfilePanel extends JPanel {
 	@SuppressWarnings("unused")
@@ -13,6 +20,13 @@ public class ShowProfilePanel extends JPanel {
 	private JPanel profilesContainer;
 	private JScrollPane scrollPane;
 
+	/**
+	 * Costruttore del pannello dei salvataggi.
+     * Inizializza il pannello con una lista scorrevole di profili salvati
+     * e un pulsante per tornare al menu principale.
+     *
+     * @param window La finestra principale dell'applicazione, necessaria per navigare tra i vari pannelli.
+     */
 	public ShowProfilePanel(Window window) {
 		this.window = window;
 
@@ -43,8 +57,11 @@ public class ShowProfilePanel extends JPanel {
 		loadProfileButtons();
 	}
 
-	// Ricarica la lista dei profili,
-	// così da poter aggiornare il panel post battaglia
+	/**
+	 * Aggiorna il pannello dei profili ricaricando la lista dei salvataggi disponibili.
+	 * 
+	 * @author Aloisi2107981
+	 */
 	public void refreshPanel() {
 		profilesContainer.removeAll();
 		loadProfileButtons();
@@ -52,6 +69,11 @@ public class ShowProfilePanel extends JPanel {
 		profilesContainer.repaint();
 	}
 
+	/**
+	 * Carica i pulsanti dei profili disponibili nel pannello.
+	 * Ordina i nomi dei profili in ordine alfabetico e aggiunge
+	 * un pulsante "Elimina" per ciascun profilo.
+	 */
 	private void loadProfileButtons() {
 		List<String> profileNames = SaveManager.getAllProfileFileNames(); // Prende tutti i nomi dei salvataggi
 		Collections.sort(profileNames); // Sorting ordine alfabetico
@@ -98,6 +120,13 @@ public class ShowProfilePanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Mostra i dettagli di un profilo salvato.
+	 * 
+	 * @param profileName Il nome del profilo da visualizzare.
+	 * 
+	 * @author Giampietri2108347
+	 */
 	private void showProfileDetails(String profileName) {
 		// Carica profilo a partire dal nome
 		PlayerProfile profile = SaveManager.loadPlayerProfile(profileName);

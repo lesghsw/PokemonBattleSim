@@ -4,6 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * Pannello di vittoria.
+ * Questa classe rappresenta il pannello di vittoria nel simulatore di battaglia Pokémon e
+ * mostra il nome del vincitore e gli sprite della squadra vincente.
+ * 
+ * @author Giampietri2108347
+ */
 @SuppressWarnings("serial")
 public class WinPanel extends JPanel {
 	@SuppressWarnings("unused")
@@ -11,6 +18,12 @@ public class WinPanel extends JPanel {
     private JLabel winnerLabel;
     private JPanel teamPanel;
 
+    /**
+     * Costruttore della pannello di vittoria.
+     * Inizializza l'interfaccia grafica con il nome del vincitore, la squadra e un pulsante per continuare.
+     * 
+     * @param window La finestra principale dell'applicazione, necessaria per navigare tra i vari pannelli.
+     */
     public WinPanel(Window window) {
         this.window = window;
         this.setBackground(Color.WHITE);
@@ -62,10 +75,20 @@ public class WinPanel extends JPanel {
         this.add(buttonPanel, gbc);
     }
 
+    /**
+     * Imposta il nome del vincitore nell'etichetta del pannello.
+     * 
+     * @param winnerName Il nome del vincitore da visualizzare.
+     */
     public void setWinner(String winnerName) {
         winnerLabel.setText("  " + winnerName + " ha vinto la battaglia! ");
     }
 
+    /**
+     * Imposta e visualizza gli sprite della squadra vincente.
+     * 
+     * @param team La lista dei Pokémon della squadra vincente.
+     */
     public void setWinnerTeam(List<Pokemon> team) {
         teamPanel.removeAll();
 

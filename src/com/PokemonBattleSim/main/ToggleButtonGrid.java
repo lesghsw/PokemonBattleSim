@@ -5,6 +5,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe per la gestione di una griglia di pulsanti "toggle".
+ * Permette di selezionare fino ad un massimo di 3 Pokémon tra quelli disponibili.
+ * 
+ * @author Giampietri2108347
+ */
 @SuppressWarnings("serial")
 public class ToggleButtonGrid extends JPanel {
 	private String[] pokemonNames = {"Bulbasaur","Charmander", "Squirtle", "Robert", "Urlox", "Cordol", "Sproloquio", "Domenico", "Bentley"}; 
@@ -13,6 +19,10 @@ public class ToggleButtonGrid extends JPanel {
     private int currentOnButtons = 0;
     private List<String> selectedPokemon;
 
+    /**
+     * Costruttore della classe ToggleButtonGrid.
+     * Inizializza la griglia dei pulsanti con i nomi dei Pokémon.
+     */
     public ToggleButtonGrid() {
         setLayout(new GridLayout(3, 3, 5, 5));
         setBackground(Color.WHITE);
@@ -31,6 +41,11 @@ public class ToggleButtonGrid extends JPanel {
         }
     }
 
+    /**
+     * Gestisce il click del pulsante per permettere la selezione dei Pokémon.ù
+     * 
+     * @param button Pulsante selezionato (o deselezionato).
+     */
     private void handleButtonClick(JToggleButton button) {
         String name = button.getText();
         if (button.isSelected()) {
@@ -46,11 +61,16 @@ public class ToggleButtonGrid extends JPanel {
         }
     }
 
+    /**
+     * Restituisce la lista dei Pokémon selezionati.
+     */
     public List<String> getSelectedPokemon() {
         return new ArrayList<>(selectedPokemon);
     }
     
-    // Per resettare i pulsanti dopo una partita
+    /**
+     * Resetta la selezione dei pulsanti deselezionandoli tutti.
+     */
     public void resetSelection() {
         for (JToggleButton button : buttons) {
             button.setSelected(false);
