@@ -22,10 +22,12 @@ public class CharSelectPanel extends JPanel {
         // Etichette e campi per i nomi
         JLabel nomeTrainer1 = new JLabel("Nome Allenatore 1:");
         nomeTrainer1.setFont(new Font("Arial", Font.BOLD, 18));
+        nomeTrainer1.setAlignmentX(Component.CENTER_ALIGNMENT);
         fieldTrainer1 = new JTextField(15);
 
         JLabel nomeTrainer2 = new JLabel("Nome Allenatore 2:");
         nomeTrainer2.setFont(new Font("Arial", Font.BOLD, 18));
+        nomeTrainer2.setAlignmentX(Component.CENTER_ALIGNMENT);
         fieldTrainer2 = new JTextField(15);
         
         Dimension fixedHeight = new Dimension(Integer.MAX_VALUE, 40);
@@ -40,9 +42,11 @@ public class CharSelectPanel extends JPanel {
         // Etichette Pokédex
         JLabel pkdx1 = new JLabel("Squadra Allenatore 1:");
         pkdx1.setFont(new Font("Arial", Font.BOLD, 18));
+        pkdx1.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel pkdx2 = new JLabel("Squadra Allenatore 2:");
         pkdx2.setFont(new Font("Arial", Font.BOLD, 18));
+        pkdx2.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Griglie per la selezione Pokémon
         gridPanel1 = new ToggleButtonGrid();
