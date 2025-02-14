@@ -4,9 +4,27 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe per gestire i salvataggi dei profili, contiene SAVE_FOLDER (Cartella dove verranno salvati i profili) e i metodi necessari per la gestione di questi ultimi.
+ * <p>
+ * I metodi sono statici, per cui possono essere chiamati senza creare un'istanza della classe
+ * 
+ * @author Aloisi2107981
+ * 
+ * @see File
+ * @see ObjectOutputStream
+ * @see ObjectInputStream
+ * @see PlayerProfile
+ */
 public class SaveManager {
     private static final String SAVE_FOLDER = "ProfileSaves";
 
+    /**
+     * Metodo per salvare un profilo (Crea la cartella SAVE_FOLDER se non esiste)
+     * 
+     * @param profile Profilo da salvare
+     * @param profileName Nome del profilo (Indicherà il nome del file di destinazione)
+     */
     public static void savePlayerProfile(PlayerProfile profile, String profileName) {
         File folder = new File(SAVE_FOLDER);
         if (!folder.exists()) {
@@ -28,6 +46,15 @@ public class SaveManager {
         }
     }
 
+    /**
+     * Metodo per caricare un profilo
+     * 
+     * @param profileName Nome del profilo (Indicherà il nome del file da caricare)
+     * 
+     * @return null se non è stato possibile caricare il profilo, altrimenti un'istanza di PlayerProfile contenente i valori del salvataggio caricato.
+     * 
+     * @see PlayerProfile
+     */
     public static PlayerProfile loadPlayerProfile(String profileName) {
         String fileName = SAVE_FOLDER + File.separator + profileName + ".dat";
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileName))) {
@@ -43,6 +70,13 @@ public class SaveManager {
         return null;
     }
 
+    /**
+     * Getter per ottenere tutti i file di salvataggio esistenti in SAVE_FOLDER
+     * 
+     * @return List contenente tutti i nomi dei file dei salvataggi
+     * 
+     * @see List
+     */
     public static List<String> getAllProfileFileNames() {
         List<String> datFileNames = new ArrayList<>();
         File folder = new File(SAVE_FOLDER);
@@ -65,6 +99,12 @@ public class SaveManager {
         return datFileNames;
     }
 
+    /**
+     * Metodo per eliminare un profilo
+     * 
+     * @param profileName Nome del profilo da eliminare
+     * @return True se il profilo è stato eliminato, False altrimenti
+     */
     public static boolean deleteProfile(String profileName) {
         String fileName = SAVE_FOLDER + File.separator + profileName + ".dat";
         File file = new File(fileName);
@@ -83,6 +123,12 @@ public class SaveManager {
         }
     }
     
+    /**
+     * Metodo per controllare se un profilo esiste nella cartella SAVE_FOLDER
+     * 
+     * @param profileName Nome del profilo di cui verificare l'esistenza.
+     * @return True se esiste, False altrimenti
+     */
     public static boolean profileExists(String profileName) {
         String fileName = SAVE_FOLDER + File.separator + profileName + ".dat";
         File file = new File(fileName);

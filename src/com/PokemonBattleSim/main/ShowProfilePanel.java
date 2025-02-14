@@ -124,8 +124,6 @@ public class ShowProfilePanel extends JPanel {
 	 * Mostra i dettagli di un profilo salvato.
 	 * 
 	 * @param profileName Il nome del profilo da visualizzare.
-	 * 
-	 * @author Giampietri2108347
 	 */
 	private void showProfileDetails(String profileName) {
 		// Carica profilo a partire dal nome

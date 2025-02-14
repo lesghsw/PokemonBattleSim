@@ -1,5 +1,17 @@
 package com.PokemonBattleSim.main;
 
+/**
+ * Classe utility per generare Pokémon.
+ * I metodi ritornano un'instanza di Pokemon, la quale contiene il Pokémon omonimo del metodo.
+ * <p>
+ * I metodi sono statici, per cui si possono chiamare senza creare un istanza della classe.
+ * 
+ * @author Aloisi2107981
+ * 
+ * @see Pokemon
+ * @see PokemonType
+ * @see PokemonMovePool
+ */
 public class PokemonPool {
 	public static Pokemon genCharmander() {
 		return new Pokemon("Charmander", 39, PokemonType.FIRE, PokemonMovePool.genGrowl(), PokemonMovePool.genScratch(), 5, 52, 43, 60, 50, 65);
@@ -37,6 +49,12 @@ public class PokemonPool {
 		return new Pokemon("Bentley", 41, PokemonType.FIRE, PokemonMovePool.genTailWhip(), PokemonMovePool.genFlamethrower(), 5, 45, 69, 55, 67, 46);
 	}
 	
+	/**
+	 * Genera Pokémon a partire dal nome
+	 * 
+	 * @param name Nome Pokémon da generare
+	 * @return Istanza della classe Pokèmon contentente il Pokémon richiesto
+	 */
 	public static Pokemon generatePokemon(String name) {
         switch (name) {
 	        case "Charmander": return genCharmander();
